@@ -41,6 +41,22 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Zero Hour\Zero Hour_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
+    <Reference Include="Cinemachine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Zero Hour\Zero Hour_Data\Managed\Cinemachine.dll</HintPath>
+    </Reference>
+    <Reference Include="com.nephasto.AdvancedNightVisionAsset, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Zero Hour\Zero Hour_Data\Managed\com.nephasto.AdvancedNightVisionAsset.dll</HintPath>
+    </Reference>
+    <Reference Include="HeathenEngineering.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Zero Hour\Zero Hour_Data\Managed\HeathenEngineering.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="HeathenEngineering.Core.Toolbox, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Zero Hour\Zero Hour_Data\Managed\HeathenEngineering.Core.Toolbox.dll</HintPath>
+    </Reference>
     <Reference Include="Photon3Unity3D, Version=4.1.4.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Zero Hour\Zero Hour_Data\Managed\Photon3Unity3D.dll</HintPath>
@@ -136,9 +152,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="console.cs" />
+    <Compile Include="CustomTypes.cs" />
+    <Compile Include="GUI.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="hackMain.cs" />
+    <Compile Include="hackFuncts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WeaponInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -11,6 +11,7 @@ namespace ZeroHour_Hacks
         {
             gameObject = new UnityEngine.GameObject();
             gameObject.AddComponent<hackMain>();
+
             UnityEngine.Object.DontDestroyOnLoad(gameObject);
         }
 
