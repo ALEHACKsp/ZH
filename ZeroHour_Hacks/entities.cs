@@ -20,7 +20,8 @@ namespace ZeroHour_Hacks
         public UserInput local_User;
         public ZH_Civillian[] m_Civs;
         public DoorManager m_DoorManager;
-        public float updateTimer = 5f; //entity lists update
+        public float updateTimer = 1f; //entity lists update
+        public float updateTimer_ = 10f; //entity lists update
         public void playerLoop()
         {
             if (m_Users.Length > 0)
@@ -63,12 +64,11 @@ namespace ZeroHour_Hacks
 
             }//end players
         }
-        public void aiLoops()
+        public void aiLoop()
         {
-            //AI/COOP
-            if (aiMan != null)
+            if (esp_AI_Master)
             {
-                if (esp_AI_Master)
+                if (aiMan != null)
                 {
                     if (aiMan.AliveEnemies.Count > 0)
                     {
@@ -82,62 +82,69 @@ namespace ZeroHour_Hacks
                         }
                         if (killAll) { killAll = false; }
                     }
-
-                    //Civillian ESP
-                    if (esp_Civs)
+                }
+            }
+        }
+        public void objLoop()
+        {
+            if (esp_Objective)
+            {
+                //Objectives
+                if (aiMan.Objectives.Length > 0)
+                {
+                    foreach (ZH_AIManager.CoopObjectiveVariables Obj in aiMan.Objectives)
                     {
-                        if (m_Civs.Length > 0)
-                        {
-                            foreach (ZH_Civillian civ in m_Civs)
-                            {
-                                drawCivEsp(civ);
-                            }
-                        }
-                    }
-                    if (esp_Traps)
-                    {
-                        //Door Traps
-                        if (trapMan.Traps.Count > 0)
-                        {
-                            foreach (DoorTrapSystem trap in trapMan.Traps)
-                            {
-                                drawTrapEsp(trap);
-                            }
-                        }
-                    }
-                    if (esp_Objective)
-                    {
-                        //Objectives
-                        if (aiMan.Objectives.Length > 0)
-                        {
-                            foreach (ZH_AIManager.CoopObjectiveVariables Obj in aiMan.Objectives)
-                            {
-                                objectiveEsp(Obj);
+                        objectiveEsp(Obj);
 
-                            }
-                        }
                     }
-
                 }
             }
 
         }
-        public void populateEntityLists()
+        public void civLoop()
+        {
+            if (esp_Civs)
+            {
+                if (m_Civs.Length > 0)
+                {
+                    foreach (ZH_Civillian civ in m_Civs)
+                    {
+                        drawCivEsp(civ);
+                    }
+                }
+            }
+        }
+        public void trapLoop()
+        {
+            if (esp_Traps)
+            {
+                //Door Traps
+                if (trapMan.Traps.Count > 0)
+                {
+                    foreach (DoorTrapSystem trap in trapMan.Traps)
+                    {
+                        drawTrapEsp(trap);
+                    }
+                }
+            }
+        }
+        public void breakerBoxLoop()
+        {
+            if (esp_Breakers)
+            {
+                foreach (BreakerBoxSystem box in breakers)
+                {
+                    DrawBreakerEsp(box);
+                }
+            }
+        }
+        public void populateEntityLists_fast()
         {
             updateTimer -= Time.deltaTime;
             if (updateTimer <= 0f)
             {
 
                 m_Users = FindObjectsOfType<UserInput>(); //must be first!
-
-                if (esp_Civs && m_Users.Length < 6)
-                {
-                    m_Civs = FindObjectsOfType<ZH_Civillian>();
-                }
-                if (esp_AI_Master && m_Users.Length < 6)
-                {
-                    aiMan = FindObjectOfType<ZH_AIManager>();
-                }
                 if (m_Camera == null)
                 {
                     m_Camera = Camera.main;
@@ -151,13 +158,34 @@ namespace ZeroHour_Hacks
                     m_DoorManager = FindObjectOfType<DoorManager>();
                 }
 
-                if (Input.GetKeyDown(KeyCode.Insert))
-                {
-                    showMenu = !showMenu;
-                }
-
-                updateTimer = 5f;
+                updateTimer = 1f;
             }
         }
+
+        public void populateEntityLists_late()
+        {
+            updateTimer_ -= Time.deltaTime;
+            if (updateTimer_ <= 0f)
+            {
+                m_Camera = Camera.main;
+
+                if (esp_Civs && m_Users.Length < 6)
+                {
+                    m_Civs = FindObjectsOfType<ZH_Civillian>();
+                }
+                if (esp_AI_Master && m_Users.Length < 6)
+                {
+                    aiMan = FindObjectOfType<ZH_AIManager>();
+                }
+
+                if (esp_Breakers)
+                {
+                    breakers = FindObjectsOfType<BreakerBoxSystem>();
+                }
+                updateTimer_ = 5f;
+            }
+        }
+
+
     }
 }

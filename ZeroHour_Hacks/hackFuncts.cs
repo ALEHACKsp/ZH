@@ -89,7 +89,6 @@ namespace ZeroHour_Hacks
                 set.ANVGScript.On = !set.ANVGScript.On;
             }
         }
-
         public bool playerWeaponChanged()
         {
             String currentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
@@ -100,7 +99,22 @@ namespace ZeroHour_Hacks
             lastWeapon = currentWeapon;
             return true;
         }
-
+        public void _infStam()
+        {
+            local_User.myWeaponManager.CurrentWeapon.ex_Weight = 0;
+        }
+        public void _infStamDisable()
+        {
+            String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
+            foreach (WeaponInfo.wep weapon in weaponDatas)
+            {
+                if (curentWeapon == weapon.name)
+                {
+                    local_User.myWeaponManager.CurrentWeapon.ex_Weight = weapon.ex_weight + 0.2f;
+                    return;
+                }
+            }
+        }
         public void _noRecoil()
         {
             m_cameraRig.RecoilX = 0f;
@@ -230,7 +244,6 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-
 #endif
     }
 }

@@ -17,15 +17,15 @@ namespace ZeroHour_Hacks
 #if !PVT
         Rect window_Solo = new Rect( 205, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 8 + m_GUI.windowHorizontalBuffer);
         Rect window_Coop = new Rect( 385, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 9 + m_GUI.windowHorizontalBuffer);
-        Rect window_Multi = new Rect( 565, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 12 + m_GUI.windowHorizontalBuffer);
-        Rect window_General = new Rect(745, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 7 + m_GUI.windowHorizontalBuffer);
+        Rect window_Multi = new Rect( 565, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 14 + m_GUI.windowHorizontalBuffer);
+        Rect window_General = new Rect(745, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 8 + m_GUI.windowHorizontalBuffer);
 #endif
 
 #if PVT
         Rect window_Solo = new Rect( 210, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 8 + m_GUI.windowHorizontalBuffer);
         Rect window_Coop = new Rect( 400, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 9 + m_GUI.windowHorizontalBuffer);
-        Rect window_Multi = new Rect( 590, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 12 + m_GUI.windowHorizontalBuffer);
-        Rect window_General = new Rect( 780, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 14 + m_GUI.windowHorizontalBuffer);
+        Rect window_Multi = new Rect( 590, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 14 + m_GUI.windowHorizontalBuffer);
+        Rect window_General = new Rect( 780, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 15 + m_GUI.windowHorizontalBuffer);
         Rect window_Aimbot = new Rect(970, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 10 + m_GUI.windowHorizontalBuffer);
         public static int numberOfWindows = 5;
         Rect toolbarLocation = new Rect(200, 1, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 4)) * numberOfWindows, 30);
@@ -109,8 +109,6 @@ namespace ZeroHour_Hacks
                 GUI.Label(new Rect(75, 10, 100, 30), "Insert for Menu");
             }
         }
-
-
         private void window_SoloFunct(int id)
         {
             m_GUI.makeButton(unlockDoors, "Unlock Doors", 1);
@@ -125,7 +123,6 @@ namespace ZeroHour_Hacks
                 GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
             }
         }
-
         private void window_CoopFunct(int id)
         {
             m_GUI.makeLabel("AI ESP", 1);
@@ -153,7 +150,10 @@ namespace ZeroHour_Hacks
             esp_Name = m_GUI.makeCheckbox(esp_Name, "Name", 8, true, esp_Master);
             esp_Headdot = m_GUI.makeCheckbox(esp_Headdot, "Head Marker", 9, true, esp_Master);
             esp_Weapon = m_GUI.makeCheckbox(esp_Weapon, "Weapon", 10, true, esp_Master);
-            esp_Throwables = m_GUI.makeCheckbox(esp_Throwables, "Throwables", 11);
+            esp_DeadBodies = m_GUI.makeCheckbox(esp_DeadBodies, "Dead Players", 11,true,esp_Master);
+            esp_Throwables = m_GUI.makeCheckbox(esp_Throwables, "Throwables", 12);
+            esp_Breakers = m_GUI.makeCheckbox(esp_Breakers, "Breaker Box", 13);
+
             if (!dockWindows)
             {
                 GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
@@ -171,17 +171,18 @@ namespace ZeroHour_Hacks
 
             noRecoil.currentValue = m_GUI.makeCheckbox(noRecoil.currentValue, "No Recoil", 5);
             automaticWeapons.currentValue = m_GUI.makeCheckbox(automaticWeapons.currentValue, "Force Full Auto", 6);
+            infStamina.currentValue = m_GUI.makeCheckbox(infStamina.currentValue, "Infinite Stamina", 7);
 #if PVT
-            fireRate.currentValue = m_GUI.makeCheckbox(fireRate.currentValue, "Fire Rate x" + fireRate_Multiplier.currentValue.ToString("F0"), 7);
-            fireRate_Multiplier.currentValue = m_GUI.makeSlider(fireRate_Multiplier.currentValue, 1, 20, 8, fireRate, true);
+            fireRate.currentValue = m_GUI.makeCheckbox(fireRate.currentValue, "Fire Rate x" + fireRate_Multiplier.currentValue.ToString("F0"), 8);
+            fireRate_Multiplier.currentValue = m_GUI.makeSlider(fireRate_Multiplier.currentValue, 1, 20, 9, fireRate, true);
 
-            bulletsPerShot.currentValue = m_GUI.makeCheckbox(bulletsPerShot.currentValue, "Bullets Per Shot " + bulletsPerShot_Amount.currentValue.ToString("F0"), 9);
-            bulletsPerShot_Amount.currentValue = m_GUI.makeSlider(bulletsPerShot_Amount.currentValue, 1, 20, 10, bulletsPerShot, true);
+            bulletsPerShot.currentValue = m_GUI.makeCheckbox(bulletsPerShot.currentValue, "Bullets Per Shot " + bulletsPerShot_Amount.currentValue.ToString("F0"), 10);
+            bulletsPerShot_Amount.currentValue = m_GUI.makeSlider(bulletsPerShot_Amount.currentValue, 1, 20, 11, bulletsPerShot, true);
 
-            instantHit.currentValue = m_GUI.makeCheckbox(instantHit.currentValue, "Instant Hit", 11);
+            instantHit.currentValue = m_GUI.makeCheckbox(instantHit.currentValue, "Instant Hit", 12);
 
-            damageHack.currentValue = m_GUI.makeCheckbox(damageHack.currentValue, "Damage Hack x" + damageHack_Amount_Multiplier.currentValue.ToString("F0"), 12);
-            damageHack_Amount_Multiplier.currentValue = m_GUI.makeSlider(damageHack_Amount_Multiplier.currentValue, 1, 100, 13, damageHack, true);
+            damageHack.currentValue = m_GUI.makeCheckbox(damageHack.currentValue, "Damage Hack x" + damageHack_Amount_Multiplier.currentValue.ToString("F0"), 13);
+            damageHack_Amount_Multiplier.currentValue = m_GUI.makeSlider(damageHack_Amount_Multiplier.currentValue, 1, 100, 14, damageHack, true);
 
 #endif
             if (!dockWindows)
@@ -190,8 +191,6 @@ namespace ZeroHour_Hacks
             }
 
         }
-
-
         public void menuTimerOperation()
         {
             menutimer -= Time.deltaTime;
@@ -231,6 +230,9 @@ namespace ZeroHour_Hacks
         public void testStuff()
         {
 
+            if(test_item_1)
+            {
+            }
         }
 #endif
 

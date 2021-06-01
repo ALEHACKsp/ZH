@@ -82,7 +82,7 @@ namespace ZeroHour_Hacks
         }
         public void drawFOV()
         {
-            if (aimbot)
+            if (aimbot && showFOV)
             {
                 GUI.color = (aimkeyPressed? Color.red : new Color(1, 1, 0, 0.2f));
                 Vector2 pt = new Vector2((Screen.width / 2) - aimbotFOV, (Screen.height / 2) - aimbotFOV);

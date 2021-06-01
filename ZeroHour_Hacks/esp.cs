@@ -63,8 +63,7 @@ namespace ZeroHour_Hacks
 
                 //GUI.color = esp_Default;
                 Color thisColor;
-                bool isVisible = _canHit(headPos, m_Camera.transform.position,
-                local_User.myWeaponManager.CurrentWeapon.Properties.PenetrationLimit + 5);
+                bool isVisible = isVisibleToPlayer(headPos);
 
                 if (isVisible)
                 {
@@ -140,9 +139,14 @@ namespace ZeroHour_Hacks
         }
         public void drawPlayerEsp(UserInput a_player)
         {
+            if(!esp_DeadBodies && !a_player.myHealth.alive)
+            {
+                return;
+            }
+
             Vector3 pos = m_Camera.WorldToScreenPoint(a_player.Player.position);
 
-
+            
             if (pos.z > 0)
             {
                 Color thisColor;
@@ -453,6 +457,16 @@ namespace ZeroHour_Hacks
 
             }
         }
+        public void DrawBreakerEsp(BreakerBoxSystem box)
+        {
+                Vector3 pos = m_Camera.WorldToScreenPoint(box.transform.position);
+            GUI.color = esp_Obj_NoVis;
+            if (pos.z > 0)
+                {
+                    float distance = Vector3.Distance(m_Camera.transform.position, box.transform.position);
+                    GUI.Label(new Rect(pos.x, Screen.height - pos.y, pos.x + 20, Screen.height - pos.y + 50), "BREAKER\n" + distance.ToString("F1"));
+                }
+        }
         public bool isVisibleToPlayer(Vector3 objectPosition)
         {
             if (local_User == null || local_User.CameraScript == null || local_User.CameraScript.position == null)
@@ -495,7 +509,7 @@ namespace ZeroHour_Hacks
                 GameObject hitObject = hit.collider.gameObject;
                 if (hitObject.GetComponent<Hitmark>() || hitObject.GetComponentInParent<Hitmark>())
                 {
-                    // make sur aimbot does not aim at local player
+                    // make sure aimbot does not aim at local player
                     if (vec3InRange(hit.point, m_Camera.transform.position, 1.5f))
                     {
                         return false;

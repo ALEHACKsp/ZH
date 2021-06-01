@@ -9,9 +9,9 @@ namespace ZeroHour_Hacks
 {
     public partial class hackMain : MonoBehaviour
     {
-
         public m_Types.trackedBool noRecoil = new m_Types.trackedBool(false);
         public m_Types.trackedBool automaticWeapons = new m_Types.trackedBool(false);
+        public m_Types.trackedBool infStamina = new m_Types.trackedBool(false);
         String lastWeapon;
 #if PVT
         public m_Types.trackedBool fireRate = new m_Types.trackedBool(false);
@@ -40,7 +40,7 @@ namespace ZeroHour_Hacks
         Color esp_Team_NoVis = new Color(0, 0.7f, 1, 0.7f);
 
 
-
+        
         WeaponInfo weps = new WeaponInfo();
         List<WeaponInfo.wep> weaponDatas = new List<WeaponInfo.wep>();
 
@@ -81,7 +81,8 @@ namespace ZeroHour_Hacks
         public bool esp_Weapon = false;
         public bool esp_Name = false;
         public bool esp_HPNums = false;
-
+        public bool esp_DeadBodies  = false;
+        public bool esp_Breakers = false;
         public bool killAll;
 
         public bool general_Crosshair = false;
