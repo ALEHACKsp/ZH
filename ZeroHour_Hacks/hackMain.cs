@@ -44,16 +44,18 @@ namespace ZeroHour_Hacks
         public void FixedUpdate()
         {
             bool weaponChanged = playerWeaponChanged();
-            m_Types.trackedBoolExecution(noRecoil, _noRecoil, _noRecoilDisable, weaponChanged);
-            m_Types.trackedBoolExecution(automaticWeapons, _automaticWeapons, _automaticWeaponsDisable, weaponChanged);
-            m_Types.trackedBoolExecution(infStamina, _infStam, _infStamDisable, weaponChanged);
+            doSwitchedHack(noRecoil, _noRecoil, _noRecoilDisable);
+            doSwitchedHack(automaticWeapons, _automaticWeapons, _automaticWeaponsDisable);
+            doSwitchedHack(infStamina, _infStam, _infStamDisable);
 #if PVT
-            m_Types.trackedBoolExecutionWithFloat(fireRate, fireRate_Multiplier, _fireRate, _fireRateDisable, weaponChanged);
-            m_Types.trackedBoolExecutionWithFloat(bulletsPerShot, bulletsPerShot_Amount, _bulletsPerShot, _bulletsPerShotDisable, weaponChanged);
-            m_Types.trackedBoolExecutionWithFloat(damageHack, damageHack_Amount_Multiplier, _damageHack, _damageHackDisable, weaponChanged);
-            m_Types.trackedBoolExecution(instantHit, _instantHit, _instantHitDisable, weaponChanged);
+            doSwitchedHack(fireRate, _fireRate, _fireRateDisable);
+            doSwitchedHack(bulletsPerShot,  _bulletsPerShot, _bulletsPerShotDisable);
+            doSwitchedHack(damageHack, _damageHack, _damageHackDisable);
+            doSwitchedHack(instantHit, _instantHit, _instantHitDisable);
 #endif
         }
+
+
         public void OnGUI()
         {
 
@@ -73,6 +75,7 @@ namespace ZeroHour_Hacks
 #if TESTING
             // basicESP(local_User.myWeaponManager.CurrentWeapon.BulletSpawner, "*");
             testStuff();
+           // m_GUI.DrawLine(new Vector2(100, 100), new Vector2(200, 200), 1);
 
 #endif
         }

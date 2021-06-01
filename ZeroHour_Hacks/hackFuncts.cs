@@ -160,7 +160,31 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        
+        public void doSwitchedHack(bool item, Action enabled, Action disabled)
+        {
+            if (item)
+            {
+                enabled();
+            }
+            else
+            {
+                disabled();
+            }
+
+        }
+
+        public void doSwitchedHackFloat(bool item, Action enabled, Action disabled)
+        {
+            if (item )
+            {
+                enabled();
+            }
+            else
+            {
+                disabled();
+            }
+
+        }
 #if PVT
         public void _instantHit()
         {

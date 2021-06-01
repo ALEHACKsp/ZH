@@ -199,7 +199,7 @@ namespace ZeroHour_Hacks
                 GUI.color = thisColor;
                 float distance = Vector3.Distance(m_Camera.transform.position, a_player.Player.position);
 
-                Vector3 headPos = m_Camera.WorldToScreenPoint(a_player.Ik_Script.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Head).position);
+                Vector3 headPos = w2s(a_player.Ik_Script.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Head).position);
 
                 if (distance > 0f)
                 {
@@ -218,7 +218,7 @@ namespace ZeroHour_Hacks
 #if PVT
                     if (aimbot)
                     {
-                        if ((teleportBullets) || (isVisible && !sameTeam && isAlive && (((pos.x < (Screen.width / 2) + aimbotFOV) && (Screen.height - pos.y < (Screen.height / 2) + aimbotFOV) &&
+                        if ( (teleportBullets || isVisible) && ( !sameTeam && isAlive && (((pos.x < (Screen.width / 2) + aimbotFOV) && (Screen.height - pos.y < (Screen.height / 2) + aimbotFOV) &&
                         (pos.x > (Screen.width / 2) - aimbotFOV) && (Screen.height - pos.y > (Screen.height / 2) - aimbotFOV))
                         || ((headPos.x < (Screen.width / 2) + aimbotFOV) && (Screen.height - headPos.y < (Screen.height / 2) + aimbotFOV))
                         && ((headPos.x > (Screen.width / 2) - aimbotFOV) && (Screen.height - headPos.y > (Screen.height / 2) - aimbotFOV)))))
@@ -311,6 +311,11 @@ namespace ZeroHour_Hacks
 
                         m_GUI.DrawBoxFill(hpBarStart, hpBarSize, hpColor);
                     }
+
+#if TESTING
+
+#endif
+
                 }
 
 

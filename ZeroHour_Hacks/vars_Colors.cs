@@ -9,15 +9,15 @@ namespace ZeroHour_Hacks
 {
     public partial class hackMain : MonoBehaviour
     {
-        public m_Types.trackedBool noRecoil = new m_Types.trackedBool(false);
-        public m_Types.trackedBool automaticWeapons = new m_Types.trackedBool(false);
-        public m_Types.trackedBool infStamina = new m_Types.trackedBool(false);
+        public bool noRecoil = false;
+        public bool automaticWeapons = false;
+        public bool infStamina = false;
         String lastWeapon;
 #if PVT
-        public m_Types.trackedBool fireRate = new m_Types.trackedBool(false);
-        public m_Types.trackedBool bulletsPerShot = new m_Types.trackedBool(false);
-        public m_Types.trackedBool damageHack = new m_Types.trackedBool(false);
-        public m_Types.trackedBool instantHit = new m_Types.trackedBool(false);
+        public bool fireRate = false;
+        public bool bulletsPerShot = false;
+        public bool damageHack = false;
+        public bool instantHit = false;
         public m_Types.trackedFloat bulletsPerShot_Amount = new m_Types.trackedFloat(1);
         public m_Types.trackedFloat fireRate_Multiplier = new m_Types.trackedFloat(1);
         public m_Types.trackedFloat damageHack_Amount_Multiplier = new m_Types.trackedFloat(1);

@@ -169,19 +169,19 @@ namespace ZeroHour_Hacks
             m_GUI.makeButton(doNVG, "Toggle NVG", 4);
 
 
-            noRecoil.currentValue = m_GUI.makeCheckbox(noRecoil.currentValue, "No Recoil", 5);
-            automaticWeapons.currentValue = m_GUI.makeCheckbox(automaticWeapons.currentValue, "Force Full Auto", 6);
-            infStamina.currentValue = m_GUI.makeCheckbox(infStamina.currentValue, "Infinite Stamina", 7);
+            noRecoil= m_GUI.makeCheckbox(noRecoil, "No Recoil", 5);
+            automaticWeapons= m_GUI.makeCheckbox(automaticWeapons, "Force Full Auto", 6);
+            infStamina= m_GUI.makeCheckbox(infStamina, "Infinite Stamina", 7);
 #if PVT
-            fireRate.currentValue = m_GUI.makeCheckbox(fireRate.currentValue, "Fire Rate x" + fireRate_Multiplier.currentValue.ToString("F0"), 8);
+            fireRate= m_GUI.makeCheckbox(fireRate, "Fire Rate x" + fireRate_Multiplier.currentValue.ToString("F0"), 8);
             fireRate_Multiplier.currentValue = m_GUI.makeSlider(fireRate_Multiplier.currentValue, 1, 20, 9, fireRate, true);
 
-            bulletsPerShot.currentValue = m_GUI.makeCheckbox(bulletsPerShot.currentValue, "Bullets Per Shot " + bulletsPerShot_Amount.currentValue.ToString("F0"), 10);
+            bulletsPerShot= m_GUI.makeCheckbox(bulletsPerShot, "Bullets Per Shot " + bulletsPerShot_Amount.currentValue.ToString("F0"), 10);
             bulletsPerShot_Amount.currentValue = m_GUI.makeSlider(bulletsPerShot_Amount.currentValue, 1, 20, 11, bulletsPerShot, true);
 
-            instantHit.currentValue = m_GUI.makeCheckbox(instantHit.currentValue, "Instant Hit", 12);
+            instantHit = m_GUI.makeCheckbox(instantHit, "Instant Hit", 12);
 
-            damageHack.currentValue = m_GUI.makeCheckbox(damageHack.currentValue, "Damage Hack x" + damageHack_Amount_Multiplier.currentValue.ToString("F0"), 13);
+            damageHack = m_GUI.makeCheckbox(damageHack, "Damage Hack x" + damageHack_Amount_Multiplier.currentValue.ToString("F0"), 13);
             damageHack_Amount_Multiplier.currentValue = m_GUI.makeSlider(damageHack_Amount_Multiplier.currentValue, 1, 100, 14, damageHack, true);
 
 #endif

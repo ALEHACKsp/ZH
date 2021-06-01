@@ -84,7 +84,7 @@ namespace ZeroHour_Hacks
         {
             if (aimbot && showFOV)
             {
-                GUI.color = (aimkeyPressed? Color.red : new Color(1, 1, 0, 0.2f));
+                GUI.color = ((aimkeyPressed || disableAimkey)? Color.red : new Color(1, 1, 0, 0.2f));
                 Vector2 pt = new Vector2((Screen.width / 2) - aimbotFOV, (Screen.height / 2) - aimbotFOV);
                 Vector2 size = new Vector2(aimbotFOV * 2, aimbotFOV * 2);
                 m_GUI.DrawBox(pt, size, 1, false);

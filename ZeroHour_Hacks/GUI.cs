@@ -34,7 +34,7 @@ namespace _GUI
             Vector2 size = new Vector2(buttonWidth, buttonHeight);
             GUI.Label(new Rect(pos, size), text);
         }
-        public static float makeSlider(float item, float left, float right, int stackNo, m_Types.trackedBool controller, bool roundValue = false)
+        public static float makeSlider(float item, float left, float right, int stackNo, bool controller, bool roundValue = false)
         {
 
             GUI.color = buttonColor;
