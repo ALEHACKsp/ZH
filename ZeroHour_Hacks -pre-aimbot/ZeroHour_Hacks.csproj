@@ -163,7 +163,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="aimbot.cs" />
     <Compile Include="console.cs" />
     <Compile Include="CustomTypes.cs" />
     <Compile Include="entities.cs" />

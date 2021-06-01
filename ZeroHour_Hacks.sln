@@ -7,14 +7,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZeroHour_Hacks", "ZeroHour_
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		_Debug|Any CPU = _Debug|Any CPU
+		Private_Release|Any CPU = Private_Release|Any CPU
+		Public_Release|Any CPU = Public_Release|Any CPU
+		TESTING|Any CPU = TESTING|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F503BBDC-148D-4D51-8DBB-86BFBF36AAF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F503BBDC-148D-4D51-8DBB-86BFBF36AAF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F503BBDC-148D-4D51-8DBB-86BFBF36AAF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F503BBDC-148D-4D51-8DBB-86BFBF36AAF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F503BBDC-148D-4D51-8DBB-86BFBF36AAF2}._Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F503BBDC-148D-4D51-8DBB-86BFBF36AAF2}._Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F503BBDC-148D-4D51-8DBB-86BFBF36AAF2}.Private_Release|Any CPU.ActiveCfg = Private|Any CPU
+		{F503BBDC-148D-4D51-8DBB-86BFBF36AAF2}.Private_Release|Any CPU.Build.0 = Private|Any CPU
+		{F503BBDC-148D-4D51-8DBB-86BFBF36AAF2}.Public_Release|Any CPU.ActiveCfg = Public_Release|Any CPU
+		{F503BBDC-148D-4D51-8DBB-86BFBF36AAF2}.Public_Release|Any CPU.Build.0 = Public_Release|Any CPU
+		{F503BBDC-148D-4D51-8DBB-86BFBF36AAF2}.TESTING|Any CPU.ActiveCfg = Release|Any CPU
+		{F503BBDC-148D-4D51-8DBB-86BFBF36AAF2}.TESTING|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

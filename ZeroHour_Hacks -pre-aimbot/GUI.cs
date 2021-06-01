@@ -45,19 +45,6 @@ namespace _GUI
             return GUI.HorizontalSlider(new Rect(pos, size), item, left, right);
 
         }
-
-        public static float makeSlider(float item, float left, float right, int stackNo)
-        {
-
-            GUI.color = buttonColor;
-            Vector2 pos = new Vector2(windowHorizontalBuffer, windowStackBuffer * stackNo);
-            Vector2 size = new Vector2(buttonWidth, buttonHeight);
-
-            float result = item;
-            return GUI.HorizontalSlider(new Rect(pos, size), item, left, right);
-
-        }
-
         public static bool makeCheckbox(bool item, String text, int stackNo, bool dependent = false, bool dependancy = true)
         {
             if (item == true)
@@ -154,14 +141,6 @@ namespace _GUI
 
 
         public static void setDefaultskin()
-        {
-            GUISkin skin = GUI.skin;
-            GUIStyle newStyle = skin.GetStyle("Label");
-            newStyle.fontSize = 14;
-            GUI.color = Color.white;
-        }
-
-        public static void setSolidSkin()
         {
             GUISkin skin = GUI.skin;
             GUIStyle newStyle = skin.GetStyle("Label");

@@ -89,7 +89,7 @@ namespace ZeroHour_Hacks
                 set.ANVGScript.On = !set.ANVGScript.On;
             }
         }
-
+#if PVT
         public bool playerWeaponChanged()
         {
             String currentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
@@ -100,54 +100,6 @@ namespace ZeroHour_Hacks
             lastWeapon = currentWeapon;
             return true;
         }
-
-        public void _noRecoil()
-        {
-            m_cameraRig.RecoilX = 0f;
-            m_cameraRig.RecoilY = 0f;
-            local_User.myWeaponManager.CurrentWeapon.ex_Recoil = 0f;
-            local_User.myWeaponManager.CurrentWeapon.Properties.HeatRate = 0f;
-            local_User.myWeaponManager.CurrentWeapon.Properties.recoilAmount = 0f;
-            local_User.myWeaponManager.CurrentWeapon.Properties.recoilRecoverTime = 0f;
-            local_User.myWeaponManager.CurrentWeapon.Properties.MaxSpray = 0f;
-            local_User.myWeaponManager.CurrentWeapon.Properties.MinSpray = 0f;
-        }
-        public void _noRecoilDisable()
-        {
-            String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
-            foreach (WeaponInfo.wep weapon in weaponDatas)
-            {
-                if (curentWeapon == weapon.name)
-                {
-                    local_User.myWeaponManager.CurrentWeapon.ex_Recoil = weapon.ex_Recoil;
-                    local_User.myWeaponManager.CurrentWeapon.Properties.HeatRate = weapon.HeatRate;
-                    local_User.myWeaponManager.CurrentWeapon.Properties.recoilAmount = weapon.recoilAmount;
-                    local_User.myWeaponManager.CurrentWeapon.Properties.recoilRecoverTime = weapon.recoilRecoverTime;
-                    local_User.myWeaponManager.CurrentWeapon.Properties.MaxSpray = weapon.MaxSpray;
-                    local_User.myWeaponManager.CurrentWeapon.Properties.MinSpray = weapon.MinSpray;
-                    return;
-                }
-            }
-        }
-        public void _automaticWeapons()
-        {
-            local_User.myWeaponManager.CurrentWeapon.Properties.Automatic = true;
-        }
-        public void _automaticWeaponsDisable()
-        {
-            String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
-            foreach (WeaponInfo.wep weapon in weaponDatas)
-            {
-
-                if (curentWeapon == weapon.name)
-                {
-                    local_User.myWeaponManager.CurrentWeapon.Properties.Automatic = weapon.Automatic;
-                    return;
-                }
-            }
-        }
-        
-#if PVT
         public void _instantHit()
         {
             local_User.myWeaponManager.CurrentWeapon.Properties.Speed = 10000f;
@@ -230,7 +182,51 @@ namespace ZeroHour_Hacks
                 }
             }
         }
+        public void _noRecoil()
+        {
+            m_cameraRig.RecoilX = 0f;
+            m_cameraRig.RecoilY = 0f;
+            local_User.myWeaponManager.CurrentWeapon.ex_Recoil = 0f;
+            local_User.myWeaponManager.CurrentWeapon.Properties.HeatRate = 0f;
+            local_User.myWeaponManager.CurrentWeapon.Properties.recoilAmount = 0f;
+            local_User.myWeaponManager.CurrentWeapon.Properties.recoilRecoverTime = 0f;
+            local_User.myWeaponManager.CurrentWeapon.Properties.MaxSpray = 0f;
+            local_User.myWeaponManager.CurrentWeapon.Properties.MinSpray = 0f;
+        }
+        public void _noRecoilDisable()
+        {
+            String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
+            foreach (WeaponInfo.wep weapon in weaponDatas)
+            {
+                if (curentWeapon == weapon.name)
+                {
+                    local_User.myWeaponManager.CurrentWeapon.ex_Recoil = weapon.ex_Recoil;
+                    local_User.myWeaponManager.CurrentWeapon.Properties.HeatRate = weapon.HeatRate;
+                    local_User.myWeaponManager.CurrentWeapon.Properties.recoilAmount = weapon.recoilAmount;
+                    local_User.myWeaponManager.CurrentWeapon.Properties.recoilRecoverTime = weapon.recoilRecoverTime;
+                    local_User.myWeaponManager.CurrentWeapon.Properties.MaxSpray = weapon.MaxSpray;
+                    local_User.myWeaponManager.CurrentWeapon.Properties.MinSpray = weapon.MinSpray;
+                    return;
+                }
+            }
+        }
+        public void _automaticWeapons()
+        {
+            local_User.myWeaponManager.CurrentWeapon.Properties.Automatic = true;
+        }
+        public void _automaticWeaponsDisable()
+        {
+            String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
+            foreach (WeaponInfo.wep weapon in weaponDatas)
+            {
 
+                if (curentWeapon == weapon.name)
+                {
+                    local_User.myWeaponManager.CurrentWeapon.Properties.Automatic = weapon.Automatic;
+                    return;
+                }
+            }
+        }
 #endif
     }
 }
