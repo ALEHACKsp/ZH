@@ -9,9 +9,9 @@ using CustomTypes;
 
 namespace ZeroHour_Hacks
 {
-    public partial class hackMain : MonoBehaviour
+    public partial class gameObj : MonoBehaviour
     {
-        public void playerHud()
+        void playerHud()
         {
             GUISkin skin2 = GUI.skin;
             GUIStyle newStyle2 = skin2.GetStyle("Label");
@@ -21,7 +21,7 @@ namespace ZeroHour_Hacks
                         "/" + local_User.myWeaponManager.CurrentWeapon.Properties.Totalammo.ToString(), newStyle2);
             newStyle2.fontSize = 14;
         }
-        public void crosshairDynamic()
+        void crosshairDynamic()
         {
             if (!local_User.myWeaponManager.AimState && !local_User.myWeaponManager.Aim)
             {
@@ -38,7 +38,7 @@ namespace ZeroHour_Hacks
 
             }
         }
-        public void drawEnemyEsp(ZH_AINav enemy)
+        void drawEnemyEsp(ZH_AINav enemy)
         {
             Vector3 pos = m_Camera.WorldToScreenPoint(enemy.transform.position);
 
@@ -137,7 +137,7 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        public void drawPlayerEsp(UserInput a_player)
+        void drawPlayerEsp(UserInput a_player)
         {
             if(!esp_DeadBodies && !a_player.myHealth.alive)
             {
@@ -147,7 +147,7 @@ namespace ZeroHour_Hacks
             Vector3 pos = m_Camera.WorldToScreenPoint(a_player.Player.position);
 
             
-            if (pos.z > 0)
+            if (pos.z > 1)
             {
                 Color thisColor;
 #if PVT
@@ -201,7 +201,7 @@ namespace ZeroHour_Hacks
 
                 Vector3 headPos = w2s(a_player.Ik_Script.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Head).position);
 
-                if (distance > 0f)
+                if (distance > 1f)
                 {
                     Vector3 artificialTop = m_Camera.WorldToScreenPoint(a_player.CameraScript.position + (new Vector3(0f, 0.2f, 0f)));
                     Vector3 artificialBottom = m_Camera.WorldToScreenPoint(a_player.Player.position + (new Vector3(0f, 0.05f, 0f)));
@@ -224,16 +224,23 @@ namespace ZeroHour_Hacks
                         && ((headPos.x > (Screen.width / 2) - aimbotFOV) && (Screen.height - headPos.y > (Screen.height / 2) - aimbotFOV)))))
                         {
                             playerAimTarget = a_player;
-                            GUI.Label(new Rect(headPos.x, Screen.height - headPos.y + ((boxheight / 100) * 3), 50, 50), "X");
+                            Vector3 target = a_player.Ik_Script.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Head).position;
+                            switch (aimTargetDropDown.selection)
+                            {
+                                case "Head":
+                                    target = a_player.Ik_Script.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Head).position;
+                                    break;
+                                case "Chest":
+                                    target = a_player.Ik_Script.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Chest).position;
+                                    break;
+                                case "Dick":
+                                    target = a_player.Ik_Script.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Spine).position;
+                                    break;
+                            }
+                            _basicESP(target, "X");
                         }
                     }
 #endif
-                    if (esp_Headdot)
-                    {
-                        GUI.Label(new Rect(headPos.x, Screen.height - headPos.y + ((boxheight / 100) * 3), 50, 50), "o");
-                    }
-
-
                     String info = "";
 
                     if (isAlive)
@@ -253,75 +260,142 @@ namespace ZeroHour_Hacks
                         {
                             m_GUI.DrawBox(new Vector2(artificialTop.x - boxHorizontaloffset, Screen.height - artificialTop.y), new Vector2(boxWidth, boxheight), 1f, true);
                         }
+                        if (esp_Distance)
+                        {
+                            info += distance.ToString("F1") + "M\n";
+                        }
+
+                        if (esp_Name)
+                        {
+                            info += a_player.myLogger.name + "\n";
+                        }
+
+                        if (esp_HPNums)
+                        {
+                            info += "HP:" + thisPlayerHP.ToString("F0") + "\n";
+                        }
+
+                        if (esp_Weapon)
+                        {
+                            info += a_player.myWeaponManager.CurrentWeapon.Properties.GunName;
+                        }
+
+                        if (esp_HPBars || esp_Skeleton || esp_Headdot)
+                        {
+                            Color hpColor = new Color(1, 1, 1, 1);//declare and setup here so we can do HP color on skeleton if we want
+
+                            if (thisPlayerHP > 50)
+                            {
+                                hpColor.b = 0f;
+                                hpColor.g = 1f;
+                                hpColor.r = 1 - ((thisPlayerHP - 50) / 50);
+                            }
+                            else if (thisPlayerHP < 50)
+                            {
+                                hpColor.b = 0f;
+                                hpColor.g = (thisPlayerHP * 2)/100;
+                                hpColor.r = 1f;
+                            }
+                            else if (thisPlayerHP == 50)
+                            {
+                                hpColor = Color.yellow;
+                            }
+                            if (esp_HPBars)
+                            {
+                                float boxScale = boxheight / 100;
+                                float hpBarThiccness = boxScale * 3;
+                                Vector2 hpBarStart = new Vector2(artificialTop.x - boxHorizontaloffset - hpBarThiccness - 1, Screen.height - artificialTop.y + 5);
+                                Vector2 hpBarSize = new Vector2(hpBarThiccness, (boxScale * thisPlayerHP) - 10);
+                                m_GUI.DrawBoxFill(hpBarStart, hpBarSize, hpColor);
+                            }
+
+                            if (esp_Skeleton)
+                            {
+                                if (!esp_HPSkeleton)
+                                { GUI.color = thisColor; }
+                                else { GUI.color = hpColor; }
+                                drawSkeleton(a_player);
+                                GUI.color = hpColor;
+                            }
+                            if(esp_Headdot)
+                            {
+                                if (!esp_HPSkeleton)
+                                { GUI.color = thisColor; }
+                                else { GUI.color = hpColor; }
+                                m_GUI.DrawCircle(new Vector2(headPos.x, Screen.height - headPos.y), ((boxheight / 100) * 5), 30, GUI.color, true, skeletonThickness);
+                            }
+                        }
                     }
                     else
                     {
                         info += "*DEAD*\n\n";
                     }
-
-                    if (esp_Distance)
-                    {
-                        info += distance.ToString("F1") + "M\n";
-                    }
-
-                    if (esp_Name)
-                    {
-                        info += a_player.myLogger.name + "\n";
-                    }
-
-                    if (esp_HPNums)
-                    {
-                        info += "HP:" + thisPlayerHP.ToString("F0") + "\n";
-                    }
-
-                    if (esp_Weapon)
-                    {
-                        info += a_player.myWeaponManager.CurrentWeapon.Properties.GunName;
-                    }
+                    GUI.color = thisColor;
                     GUI.Label(new Rect(info_Right.x, info_Right.y, info_Right.x + 60, info_Right.y + 100), info);
-
-
-                    if (isAlive && esp_HPBars)
-                    {
-                        /* test hp bars */
-                        float boxScale = boxheight / 100;
-
-                        float hpBarThiccness = boxScale * 3;
-
-                        Vector2 hpBarStart = new Vector2(artificialTop.x - boxHorizontaloffset - hpBarThiccness - 1, Screen.height - artificialTop.y + 5);
-                        Vector2 hpBarSize = new Vector2(hpBarThiccness, (boxScale * thisPlayerHP) - 10);
-                        Color hpColor = new Color(1, 1, 1, 1);
-
-                        if (thisPlayerHP > 50)
-                        {
-                            hpColor.b = 0f;
-                            hpColor.g = 1f;
-                            hpColor.r = 1 - ((thisPlayerHP - 50) / 50);
-                        }
-                        else if (thisPlayerHP < 50)
-                        {
-                            hpColor.b = 0f;
-                            hpColor.g = (thisPlayerHP - 50) / 50;
-                            hpColor.r = 1f;
-                        }
-                        else if (thisPlayerHP == 50)
-                        {
-                            hpColor = Color.yellow;
-                        }
-
-                        m_GUI.DrawBoxFill(hpBarStart, hpBarSize, hpColor);
-                    }
-
 #if TESTING
 
 #endif
-
                 }
 
 
             }
         }
-        public void objectiveEsp(ZH_AIManager.CoopObjectiveVariables Obj)
+        void drawSkeleton(UserInput a_player)
+        {
+            // head->neck->R/L shoulder->chest ->spine -> r/l upper leg -> r/l lower leg / r/l foot -> r/l toes
+            // r/l shoulders -> r/l upper arms -> r/l lower arms -> r/l hands
+
+            drawBoneLine(a_player, HumanBodyBones.Head, HumanBodyBones.Neck);
+
+
+            drawBoneLine(a_player, HumanBodyBones.Neck, HumanBodyBones.LeftUpperArm);
+            drawBoneLine(a_player, HumanBodyBones.Neck, HumanBodyBones.RightUpperArm);
+            drawBoneLine(a_player, HumanBodyBones.LeftUpperArm, HumanBodyBones.LeftUpperLeg);
+            drawBoneLine(a_player, HumanBodyBones.RightUpperArm, HumanBodyBones.RightUpperLeg);
+            drawBoneLine(a_player, HumanBodyBones.RightUpperLeg, HumanBodyBones.LeftUpperLeg);
+            /*
+            drawBoneLine(a_player, HumanBodyBones.Neck, HumanBodyBones.LeftShoulder);
+            drawBoneLine(a_player, HumanBodyBones.Neck, HumanBodyBones.RightShoulder);
+            drawBoneLine(a_player, HumanBodyBones.LeftShoulder, HumanBodyBones.Chest);
+            drawBoneLine(a_player, HumanBodyBones.RightShoulder, HumanBodyBones.Chest);
+
+            drawBoneLine(a_player, HumanBodyBones.Chest, HumanBodyBones.Spine);
+            drawBoneLine(a_player, HumanBodyBones.Spine, HumanBodyBones.LeftUpperLeg);
+            drawBoneLine(a_player, HumanBodyBones.Spine, HumanBodyBones.RightUpperLeg);
+            */
+            //make a dick
+            drawBoneLine(a_player, HumanBodyBones.LeftUpperLeg, HumanBodyBones.LeftLowerLeg);
+            drawBoneLine(a_player, HumanBodyBones.RightUpperLeg, HumanBodyBones.RightLowerLeg);
+            drawBoneLine(a_player, HumanBodyBones.LeftLowerLeg, HumanBodyBones.LeftFoot);
+            drawBoneLine(a_player, HumanBodyBones.RightLowerLeg, HumanBodyBones.RightFoot);
+            drawBoneLine(a_player, HumanBodyBones.LeftFoot, HumanBodyBones.LeftToes);
+            drawBoneLine(a_player, HumanBodyBones.RightFoot, HumanBodyBones.RightToes);
+
+            // drawBoneLine(a_player, HumanBodyBones.LeftShoulder, HumanBodyBones.LeftUpperArm);
+            // drawBoneLine(a_player, HumanBodyBones.RightShoulder, HumanBodyBones.RightUpperArm);
+            drawBoneLine(a_player, HumanBodyBones.LeftUpperArm, HumanBodyBones.LeftLowerArm);
+            drawBoneLine(a_player, HumanBodyBones.RightUpperArm, HumanBodyBones.RightLowerArm);
+            drawBoneLine(a_player, HumanBodyBones.LeftLowerArm, HumanBodyBones.LeftHand);
+            drawBoneLine(a_player, HumanBodyBones.RightLowerArm, HumanBodyBones.RightHand);
+
+            //potential bone visibility check? would be heavy.
+        }
+        void drawBoneLine(UserInput user, HumanBodyBones a, HumanBodyBones b)
+        {
+
+            lineEsp(user.Ik_Script.GetComponent<Animator>().GetBoneTransform(a).position,
+                user.Ik_Script.GetComponent<Animator>().GetBoneTransform(b).position,
+                Mathf.RoundToInt(skeletonThickness));
+        }
+        void lineEsp(Vector3 origin, Vector3 end, int thickness)
+        {
+            Vector3 start, finish;
+            start = w2s(origin);
+            finish = w2s(end);
+
+            m_GUI._DrawLine(new Vector2(start.x, Screen.height - start.y), new Vector2(finish.x, Screen.height - finish.y), thickness);
+        }
+        void objectiveEsp(ZH_AIManager.CoopObjectiveVariables Obj)
         {
             int objType = (int)Obj.ObjectiveType; //we cast the type to an int because it pulls from an Obscured Enum type, the enum name and types change with each update, the values do not.
 
@@ -366,7 +440,7 @@ namespace ZeroHour_Hacks
             }
 
         }
-        public void drawCivEsp(ZH_Civillian civ)
+        void drawCivEsp(ZH_Civillian civ)
         {
             Vector3 pos = m_Camera.WorldToScreenPoint(civ.transform.position);
 
@@ -387,7 +461,7 @@ namespace ZeroHour_Hacks
                 GUI.Label(new Rect(pos.x, Screen.height - pos.y, pos.x + 20, Screen.height - pos.y + 50), "AI_CIV\n" + distance.ToString("F1"));
             }
         }
-        public void throwableESP(ThrowableSystem throwable)
+        void throwableESP(ThrowableSystem throwable)
         {
 
             if (throwable.Thrown && !throwable.Blown) //add correct radius
@@ -440,7 +514,7 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        public void drawTrapEsp(DoorTrapSystem trap)
+        void drawTrapEsp(DoorTrapSystem trap)
         {
             if (trap.ACTIVE)
             {
@@ -462,7 +536,7 @@ namespace ZeroHour_Hacks
 
             }
         }
-        public void DrawBreakerEsp(BreakerBoxSystem box)
+        void DrawBreakerEsp(BreakerBoxSystem box)
         {
                 Vector3 pos = m_Camera.WorldToScreenPoint(box.transform.position);
             GUI.color = esp_Obj_NoVis;
@@ -472,7 +546,7 @@ namespace ZeroHour_Hacks
                     GUI.Label(new Rect(pos.x, Screen.height - pos.y, pos.x + 20, Screen.height - pos.y + 50), "BREAKER\n" + distance.ToString("F1"));
                 }
         }
-        public bool isVisibleToPlayer(Vector3 objectPosition)
+        bool isVisibleToPlayer(Vector3 objectPosition)
         {
             if (local_User == null || local_User.CameraScript == null || local_User.CameraScript.position == null)
             {
@@ -498,7 +572,7 @@ namespace ZeroHour_Hacks
                 return false;
             }
         }
-        public bool _canHit(Vector3 pos, Vector3 origin, int penetration)
+        bool _canHit(Vector3 pos, Vector3 origin, int penetration)
         {
             if (penetration < 1)
             {
@@ -561,7 +635,7 @@ namespace ZeroHour_Hacks
             }
             return false;
         }
-        public bool vec3InRange(Vector3 point, Vector3 reference, float tolerance)
+        bool vec3InRange(Vector3 point, Vector3 reference, float tolerance)
         {
             if (point.x > reference.x - tolerance && point.x < reference.x + tolerance)
             {
@@ -575,7 +649,7 @@ namespace ZeroHour_Hacks
             }
             return false;
         }
-        public void basicESP(Transform t, string text)
+        void basicESP(Transform t, string text)
         {
             Vector3 pos = m_Camera.WorldToScreenPoint(t.position);
             if (pos.z > 0)
@@ -585,11 +659,11 @@ namespace ZeroHour_Hacks
                 GUI.Label(new Rect(pos.x, Screen.height - pos.y, pos.x + 20, Screen.height - pos.y + 50), text);
             }
         }
-        public Vector3 w2s(Vector3 pos)
+        Vector3 w2s(Vector3 pos)
         {
             return m_Camera.WorldToScreenPoint(pos);
         }
-        public void _basicESP(Vector3 pos_, string text)
+        void _basicESP(Vector3 pos_, string text)
         {
             Vector3 pos = m_Camera.WorldToScreenPoint(pos_);
             if (pos.z > 0)

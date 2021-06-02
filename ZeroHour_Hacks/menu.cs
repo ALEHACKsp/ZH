@@ -10,38 +10,45 @@ using CustomTypes;
 namespace ZeroHour_Hacks
 {
 
-    public partial class hackMain : MonoBehaviour
+    public partial class gameObj : MonoBehaviour
     {
         String baseInfo = "Трискит\n";
-        public float menutimer = 1f;
+         float menutimer = 1f;
 #if !PVT
         Rect window_Solo = new Rect( 205, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 8 + m_GUI.windowHorizontalBuffer);
         Rect window_Coop = new Rect( 385, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 9 + m_GUI.windowHorizontalBuffer);
-        Rect window_Multi = new Rect( 565, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 14 + m_GUI.windowHorizontalBuffer);
+        Rect window_Multi = new Rect( 565, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 18 + m_GUI.windowHorizontalBuffer);
         Rect window_General = new Rect(745, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 8 + m_GUI.windowHorizontalBuffer);
 #endif
 
 #if PVT
         Rect window_Solo = new Rect( 210, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 8 + m_GUI.windowHorizontalBuffer);
         Rect window_Coop = new Rect( 400, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 9 + m_GUI.windowHorizontalBuffer);
-        Rect window_Multi = new Rect( 590, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 14 + m_GUI.windowHorizontalBuffer);
+        Rect window_Multi = new Rect( 590, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 18 + m_GUI.windowHorizontalBuffer);
         Rect window_General = new Rect( 780, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 15 + m_GUI.windowHorizontalBuffer);
-        Rect window_Aimbot = new Rect(970, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 10 + m_GUI.windowHorizontalBuffer);
-        public static int numberOfWindows = 5;
+        Rect window_Aimbot = new Rect(970, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 12 + m_GUI.windowHorizontalBuffer);
+         static int numberOfWindows = 5;
         Rect toolbarLocation = new Rect(200, 1, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 4)) * numberOfWindows, 30);
 #endif
 #if !PVT
-        public static int numberOfWindows = 4;
+         static int numberOfWindows = 4;
         Rect toolbarLocation = new Rect(200, 1, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 3))*numberOfWindows, 30);
-        public string[]  toolBarContent = new string[] {"Solo Features","Coop / AI ESP", "Multiplayer ESP", "General Features"};
+         string[]  toolBarContent = new string[] {"Solo Features","Coop / AI ESP", "Multiplayer ESP", "General Features"};
 #endif
-        public int toolBarCurrent = -1;
+         int toolBarCurrent = -1;
 
 #if PVT
-        public string[]  toolBarContent = new string[] {"Solo Features","Coop / AI ESP", "Multiplayer ESP", "General Features", "Aimbot"};
+         string[]  toolBarContent = new string[] {"Solo Features","Coop / AI ESP", "Multiplayer ESP", "General Features", "Aimbot"};
 #endif
-        public bool dockWindows = true;
-        public void menu()
+        
+          static string[] ops_Aimbot = { "Head", "Chest", "Dick" };
+         m_GUI.dropDown aimTargetDropDown = new m_GUI.dropDown(ops_Aimbot, 150, 20);
+         static string[] ops_Aimkey = { "Mouse 4","Mouse 5", "Left Alt", "Right Mouse"};
+        m_GUI.dropDown aimKeyDropDown = new m_GUI.dropDown(ops_Aimkey, 150, 20);
+
+         bool dockWindows = true;
+         bool showAll = false;
+         void menu()
         {
             GUI.Label(new Rect(10, 10, 200, 100), baseInfo);
             if (showMenu)
@@ -49,7 +56,7 @@ namespace ZeroHour_Hacks
                 m_GUI.setDefaultskin();
 
                 dockWindows = GUI.Toggle(new Rect(75, 10, 100, 30), dockWindows, "Dock Windows");
-
+                showAll = GUI.Toggle(new Rect(75, 30, 100, 30), showAll, "Show All");
 
                 if (dockWindows)
                 {
@@ -77,32 +84,60 @@ namespace ZeroHour_Hacks
                 }
 
                 toolBarCurrent = GUI.Toolbar(toolbarLocation, toolBarCurrent, toolBarContent);
-
-                switch(toolBarCurrent)
-                {
-                    case 0:
-                        window_Solo = GUI.Window(0, window_Solo, window_SoloFunct, "Solo Only");
-                        break;
-                    case 1:
-                        window_Coop = GUI.Window(1, window_Coop, window_CoopFunct, "Coop");
-                        break;
-                    case 2:
-                        window_Multi = GUI.Window(2, window_Multi, window_MultiFunct, "Multiplayer");
-                        break;
-                    case 3:
-                        window_General = GUI.Window(3, window_General, window_GeneralFunct, "General");
-                        break;
-                    case 4:
 #if PVT
-                        window_Aimbot = GUI.Window(4, window_Aimbot, window_AimbotFunct, "Aimbot - Players Only");
+                if (aimTargetDropDown.show)
+                {
+                    window_Aimbot.height = m_GUI.buttonHeight * 13 + m_GUI.windowHorizontalBuffer;
+                }
+                else if (aimKeyDropDown.show)
+                {
+                    window_Aimbot.height = m_GUI.buttonHeight * 16 + m_GUI.windowHorizontalBuffer;
+                }
+                else
+                {
+                    window_Aimbot.height = m_GUI.buttonHeight * 12 + m_GUI.windowHorizontalBuffer;
+                }
 #endif
-                        break;
-                    default:
-                        break;
+                if (showAll)
+                {
+                    window_Solo = GUI.Window(0, window_Solo, window_SoloFunct, "Solo Only");
+                    window_Coop = GUI.Window(1, window_Coop, window_CoopFunct, "Coop");
+                    window_Multi = GUI.Window(2, window_Multi, window_MultiFunct, "Multiplayer");
+                    window_General = GUI.Window(3, window_General, window_GeneralFunct, "General");
+#if PVT
+                    window_Aimbot = GUI.Window(4, window_Aimbot, window_AimbotFunct, "Aimbot - Players Only");
+#endif
+                }
+                else
+                {
+
+                    switch (toolBarCurrent)
+                    {
+                        case 0:
+                            window_Solo = GUI.Window(0, window_Solo, window_SoloFunct, "Solo Only");
+                            break;
+                        case 1:
+                            window_Coop = GUI.Window(1, window_Coop, window_CoopFunct, "Coop");
+                            break;
+                        case 2:
+                            window_Multi = GUI.Window(2, window_Multi, window_MultiFunct, "Multiplayer");
+                            break;
+                        case 3:
+                            window_General = GUI.Window(3, window_General, window_GeneralFunct, "General");
+                            break;
+                        case 4:
+#if PVT
+                            window_Aimbot = GUI.Window(4, window_Aimbot, window_AimbotFunct, "Aimbot - Players Only");
+#endif
+                            break;
+                        default:
+                            break;
+                    }
                 }
 #if TESTING
-                window_test = GUI.Window(5, window_test, window_TestFunct, "Test");
+                    window_test = GUI.Window(5, window_test, window_TestFunct, "Test");
 #endif
+                
             }
             else
             {
@@ -153,6 +188,12 @@ namespace ZeroHour_Hacks
             esp_DeadBodies = m_GUI.makeCheckbox(esp_DeadBodies, "Dead Players", 11,true,esp_Master);
             esp_Throwables = m_GUI.makeCheckbox(esp_Throwables, "Throwables", 12);
             esp_Breakers = m_GUI.makeCheckbox(esp_Breakers, "Breaker Box", 13);
+            esp_Skeleton = m_GUI.makeCheckbox(esp_Skeleton, "Skeletons", 14);
+            esp_HPSkeleton = m_GUI.makeCheckbox(esp_HPSkeleton, "HP Skeleton", 15);
+            m_GUI.makeLabel("Bone Thiccness: " + Mathf.RoundToInt(skeletonThickness).ToString(), 16);
+            skeletonThickness = m_GUI.makeSlider(skeletonThickness, 1, 3, 17);
+
+
 
             if (!dockWindows)
             {
@@ -191,7 +232,7 @@ namespace ZeroHour_Hacks
             }
 
         }
-        public void menuTimerOperation()
+         void menuTimerOperation()
         {
             menutimer -= Time.deltaTime;
 
@@ -222,12 +263,12 @@ namespace ZeroHour_Hacks
 
             GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
         }
-        public bool test_item_1 = false;
-        public bool test_item_2 = false;
-        public bool test_item_3 = false;
-        public bool test_item_4 = false;
-        public bool test_item_5 = false;
-        public void testStuff()
+         bool test_item_1 = false;
+         bool test_item_2 = false;
+         bool test_item_3 = false;
+         bool test_item_4 = false;
+         bool test_item_5 = false;
+         void testStuff()
         {
 
             if(test_item_1)

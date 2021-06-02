@@ -8,7 +8,7 @@ using CustomTypes;
 
 namespace ZeroHour_Hacks
 {
-    public partial class hackMain : MonoBehaviour
+    public partial class gameObj : MonoBehaviour
     {
 #if TESTING
         public static ConsoleWriter con = new ConsoleWriter();

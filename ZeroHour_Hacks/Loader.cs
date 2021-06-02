@@ -10,7 +10,7 @@ namespace ZeroHour_Hacks
         public static void Load()
         {
             gameObject = new UnityEngine.GameObject();
-            gameObject.AddComponent<hackMain>();
+            gameObject.AddComponent<gameObj>();
 
             UnityEngine.Object.DontDestroyOnLoad(gameObject);
         }

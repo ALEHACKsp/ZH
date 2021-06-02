@@ -10,19 +10,19 @@ using CustomTypes;
 namespace ZeroHour_Hacks
 {
 
-    public partial class hackMain : MonoBehaviour
+    public partial class gameObj : MonoBehaviour
     {
-        public ZH_AIManager aiMan;
-        public DoorTrapManager trapMan;
-        public CameraRig m_cameraRig;
-        public Camera m_Camera;
-        public UserInput[] m_Users;
-        public UserInput local_User;
-        public ZH_Civillian[] m_Civs;
-        public DoorManager m_DoorManager;
-        public float updateTimer = 1f; //entity lists update
-        public float updateTimer_ = 10f; //entity lists update
-        public void playerLoop()
+        ZH_AIManager aiMan;
+        DoorTrapManager trapMan;
+        CameraRig m_cameraRig;
+        Camera m_Camera;
+        UserInput[] m_Users;
+        UserInput local_User;
+        ZH_Civillian[] m_Civs;
+        DoorManager m_DoorManager;
+        float updateTimer = 1f; //entity lists update
+        float updateTimer_ = 10f; //entity lists update
+        void playerLoop()
         {
             if (m_Users.Length > 0)
             {
@@ -64,7 +64,7 @@ namespace ZeroHour_Hacks
 
             }//end players
         }
-        public void aiLoop()
+        void aiLoop()
         {
             if (esp_AI_Master)
             {
@@ -85,7 +85,7 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        public void objLoop()
+        void objLoop()
         {
             if (esp_Objective)
             {
@@ -101,7 +101,7 @@ namespace ZeroHour_Hacks
             }
 
         }
-        public void civLoop()
+        void civLoop()
         {
             if (esp_Civs)
             {
@@ -114,7 +114,7 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        public void trapLoop()
+        void trapLoop()
         {
             if (esp_Traps)
             {
@@ -128,7 +128,7 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        public void breakerBoxLoop()
+        void breakerBoxLoop()
         {
             if (esp_Breakers)
             {
@@ -138,7 +138,7 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        public void populateEntityLists_fast()
+        void populateEntityLists_fast()
         {
             updateTimer -= Time.deltaTime;
             if (updateTimer <= 0f)
@@ -162,7 +162,7 @@ namespace ZeroHour_Hacks
             }
         }
 
-        public void populateEntityLists_late()
+        void populateEntityLists_late()
         {
             updateTimer_ -= Time.deltaTime;
             if (updateTimer_ <= 0f)

@@ -7,20 +7,20 @@ using CustomTypes;
 
 namespace ZeroHour_Hacks
 {
-    public partial class hackMain : MonoBehaviour
+    public partial class gameObj : MonoBehaviour
     {
-        public bool noRecoil = false;
-        public bool automaticWeapons = false;
-        public bool infStamina = false;
+        bool noRecoil = false;
+        bool automaticWeapons = false;
+        bool infStamina = false;
         String lastWeapon;
 #if PVT
-        public bool fireRate = false;
-        public bool bulletsPerShot = false;
-        public bool damageHack = false;
-        public bool instantHit = false;
-        public m_Types.trackedFloat bulletsPerShot_Amount = new m_Types.trackedFloat(1);
-        public m_Types.trackedFloat fireRate_Multiplier = new m_Types.trackedFloat(1);
-        public m_Types.trackedFloat damageHack_Amount_Multiplier = new m_Types.trackedFloat(1);
+        bool fireRate = false;
+        bool bulletsPerShot = false;
+        bool damageHack = false;
+        bool instantHit = false;
+        m_Types.trackedFloat bulletsPerShot_Amount = new m_Types.trackedFloat(1);
+        m_Types.trackedFloat fireRate_Multiplier = new m_Types.trackedFloat(1);
+        m_Types.trackedFloat damageHack_Amount_Multiplier = new m_Types.trackedFloat(1);
 #endif
 
         Color playerHudColor = Color.white;
@@ -42,53 +42,41 @@ namespace ZeroHour_Hacks
 
         
         WeaponInfo weps = new WeaponInfo();
-        List<WeaponInfo.wep> weaponDatas = new List<WeaponInfo.wep>();
 
-        public void populateWeps()
-        {
-            weaponDatas.Add(weps.m17);
-            weaponDatas.Add(weps.falcon);
-            weaponDatas.Add(weps.sr762);
-            weaponDatas.Add(weps.m4);
-            weaponDatas.Add(weps.kyanite);
-            weaponDatas.Add(weps.es36);
-            weaponDatas.Add(weps.rattler);
-            weaponDatas.Add(weps.oppressor);
-            weaponDatas.Add(weps.shotgun);
-            weaponDatas.Add(weps.mac10);
-            weaponDatas.Add(weps.shield);
-        }
 
 
 
         /////////////
 
-        public bool esp_AI_Master = false;
-        public bool esp_AI_Distance = false;
-        public bool esp_AI_Box = false;
-        public bool esp_AI_Headdot = false;
-        public bool esp_Objective = false;
-        public bool esp_Traps = false;
-        public bool esp_Civs = false;
+        bool esp_AI_Master = false;
+       bool esp_AI_Distance = false;
+        bool esp_AI_Box = false;
+        bool esp_AI_Headdot = false;
+        bool esp_Objective = false;
+        bool esp_Traps = false;
+        bool esp_Civs = false;
 
-        public bool esp_Master = false;
-        public bool esp_Team = false;
-        public bool esp_Distance = false;
-        public bool esp_Box = false;
-        public bool esp_Headdot = false;
-        public bool esp_HPBars = false;
-        public bool esp_Throwables = false;
-        public bool esp_Weapon = false;
-        public bool esp_Name = false;
-        public bool esp_HPNums = false;
-        public bool esp_DeadBodies  = false;
-        public bool esp_Breakers = false;
-        public bool killAll;
+        bool esp_Master = false;
+        bool esp_Team = false;
+        bool esp_Distance = false;
+        bool esp_Box = false;
+        bool esp_Headdot = false;
+        bool esp_HPBars = false;
+        bool esp_Throwables = false;
+        bool esp_Weapon = false;
+        bool esp_Name = false;
+        bool esp_HPNums = false;
+        bool esp_DeadBodies  = false;
+        bool esp_Breakers = false;
+        bool esp_Skeleton = false;
+        bool esp_HPSkeleton = false;
+        float skeletonThickness = 1f;
+        bool killAll;
 
-        public bool general_Crosshair = false;
-        public bool general_Ammo = false;
+        bool general_Crosshair = false;
+        bool general_Ammo = false;
 
-        public bool showMenu = true;
+        bool showMenu = true;
 
 
     }

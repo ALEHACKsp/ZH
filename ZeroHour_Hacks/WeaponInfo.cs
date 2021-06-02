@@ -1,8 +1,14 @@
-﻿using System;
+﻿using RootMotion.FinalIK;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using _GUI;
+using CustomTypes;
 
 namespace ZeroHour_Hacks
 {
-    public class WeaponInfo
+     class WeaponInfo
     {
         public class wep
         {
@@ -38,20 +44,38 @@ namespace ZeroHour_Hacks
                 ex_Dmg = _ex_Dmg;
                 name = _name;
                 speed = _speed;
+                ex_weight = _ex_weight;
             }
         }
 
-        public wep m17 = new wep("MOCK 17", 1, false, -1.6f, 1, 5, 0.25f, 0, 0,                     0.16f, 25, -2, 37,0.1405f);
-        public wep falcon = new wep(".50 FALCON", 1, false, -2, 3, 7, 0.25f, 0, 0,                  0.3f, 50, -10 , 37,0.153f);
-        public wep sr762 = new wep("SR 7.62", 1, true, -0.1f, 1, 1.25f, 0.25f, 0.15f, -0.15f,       0.12f, 35, -2, 37,0.195f);
-        public wep m4 = new wep("M4", 1, true, -0.1f, 0.75f, 1.23f, 0.25f, 0.1f, -0.1f,             0.1f, 30, -3, 37,0.1705f);
-        public wep kyanite = new wep("Kyanite", 1, true, -0.1f, 1, 1.2f, 0.25f, 0.12f, -0.12f,      0.1f, 30, -6, 37,0.183f);
-        public wep es36 = new wep("ES36", 1, true, 0, 0.6f, 1.26f, 0.22f, 0.25f, -0.25f,            0.1f, 26, 0, 37,0.171f);
-        public wep rattler = new wep("RATTLER", 1, true, -0.15f, -.3f, 1.15f, 0.23f, 0.9f,  -0.9f,  0.088f, 20, -3, 37,0.1585f);
-        public wep oppressor = new wep("OPPRESSOR", 1, true, 0, 0.5f, 1f, 0.27f, 0.2f, -0.2f,       0.09f, 25, 0, 37,0.161f);
-        public wep shotgun = new wep("TACTICAL SHOTGUN", 8, false, -0.25f, 5, 2, 0.25f, 3, -3,      1, 30, -5, 37,0.2045f);
-        public wep mac10 = new wep("MAC-10", 1, true, -0.15f, 0.35f, 2, 0.25f, 0.8f, -0.8f,         0.072f, 20, -3, 37,0.137f);
-        public wep shield = new wep("BALLISTIC SHIELD", 0, true, 0, 1, 1.2f, 0.25f, 0, 0,           0, 0, 0, 37,0.21f);
+            wep m17     = new wep("MOCK 17", 1, false, -1.6f, 1, 5, 0.25f, 0, 0,                     0.16f, 25, -2, 37,0.1405f);
+            wep falcon  = new wep(".50 FALCON", 1, false, -2, 3, 7, 0.25f, 0, 0,                  0.3f, 50, -10 , 37,0.153f);
+            wep sr762   = new wep("SR 7.62", 1, true, -0.1f, 1, 1.25f, 0.25f, 0.15f, -0.15f,       0.12f, 35, -2, 37,0.195f);
+            wep m4      = new wep("M4", 1, true, -0.1f, 0.75f, 1.23f, 0.25f, 0.1f, -0.1f,             0.1f, 30, -3, 37,0.1705f);
+            wep kyanite = new wep("Kyanite", 1, true, -0.1f, 1, 1.2f, 0.25f, 0.12f, -0.12f,      0.1f, 30, -6, 37,0.183f);
+            wep es36    = new wep("ES36", 1, true, 0, 0.6f, 1.26f, 0.22f, 0.25f, -0.25f,            0.1f, 26, 0, 37,0.171f);
+            wep rattler = new wep("RATTLER", 1, true, -0.15f, -.3f, 1.15f, 0.23f, 0.9f,  -0.9f,  0.088f, 20, -3, 37,0.1585f);
+            wep oppressor = new wep("OPPRESSOR", 1, true, 0, 0.5f, 1f, 0.27f, 0.2f, -0.2f,       0.09f, 25, 0, 37,0.161f);
+            wep shotgun = new wep("TACTICAL SHOTGUN", 8, false, -0.25f, 5, 2, 0.25f, 3, -3,      1, 30, -5, 37,0.2045f);
+            wep mac10   = new wep("MAC-10", 1, true, -0.15f, 0.35f, 2, 0.25f, 0.8f, -0.8f,         0.072f, 20, -3, 37,0.137f);
+            wep shield  = new wep("BALLISTIC SHIELD", 0, true, 0, 1, 1.2f, 0.25f, 0, 0,           0, 0, 0, 37,0.21f);
+
+        public List<wep> weaponDatas = new List<wep>();
+
+        public void populateWeps()
+        {
+            weaponDatas.Add(m17);
+            weaponDatas.Add(falcon);
+            weaponDatas.Add(sr762);
+            weaponDatas.Add(m4);
+            weaponDatas.Add(kyanite);
+            weaponDatas.Add(es36);
+            weaponDatas.Add(rattler);
+            weaponDatas.Add(oppressor);
+            weaponDatas.Add(shotgun);
+            weaponDatas.Add(mac10);
+            weaponDatas.Add(shield);
+        }
 
     }
 

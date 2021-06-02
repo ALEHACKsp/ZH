@@ -9,10 +9,10 @@ using CustomTypes;
 
 namespace ZeroHour_Hacks
 {
-    public partial class hackMain : MonoBehaviour
+    public partial class gameObj : MonoBehaviour
     {
 
-        String buildNo = "v0.802";
+        String buildNo = "v0.850";
 
         BreakerBoxSystem[] breakers;
 
@@ -21,7 +21,7 @@ namespace ZeroHour_Hacks
         {
             baseInfo += buildNo;
             killAll = false;
-            populateWeps();
+            weps.populateWeps();
         }
 
 
@@ -65,7 +65,6 @@ namespace ZeroHour_Hacks
             trapLoop();
             civLoop();
             objLoop();
-
             breakerBoxLoop();
 
            
@@ -75,10 +74,10 @@ namespace ZeroHour_Hacks
 #if TESTING
             // basicESP(local_User.myWeaponManager.CurrentWeapon.BulletSpawner, "*");
             testStuff();
-           // m_GUI.DrawLine(new Vector2(100, 100), new Vector2(200, 200), 1);
-
 #endif
-        }
+    }
+
+        
 
 
     }//end class

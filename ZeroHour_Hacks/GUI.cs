@@ -27,6 +27,21 @@ namespace _GUI
                 operation();
             }
         }
+
+        public static void _DrawLine(Vector2 start, Vector2 end, int width)
+        {
+            Vector2 d = end - start;
+            float a = Mathf.Rad2Deg * Mathf.Atan(d.y / d.x);
+            if (d.x < 0)
+                a += 180;
+
+            int width2 = (int)Mathf.Ceil(width / 2);
+
+            GUIUtility.RotateAroundPivot(a, start);
+            GUI.DrawTexture(new Rect(start.x, start.y - width2, d.magnitude, width), Texture2D.whiteTexture);
+            GUIUtility.RotateAroundPivot(-a, start);
+        }
+
         public static void makeLabel(String text, int stackNo)
         {
             GUI.color = buttonColor;
@@ -168,6 +183,79 @@ namespace _GUI
             newStyle.fontSize = 14;
             GUI.color = Color.white;
         }
+
+        public class dropDown
+        {
+            public Vector2 scrollViewVector = Vector2.zero;
+
+            public string[] list;
+
+            public int indexNumber;
+            public bool show = false;
+            public static int buttonWidth;
+            public static int buttonHeight;
+
+            public string selection;
+            public dropDown(string[] options, int width, int height)
+            {
+                list = options;
+                buttonHeight = height;
+                buttonWidth = width;
+                selection = options[0];
+            }
+            public void makeDropper(int stackNo)
+            {
+                GUI.color = Color.white;
+                Rect dropDownRect = new Rect(10 + buttonWidth, buttonHeight * stackNo, buttonWidth, buttonWidth * 2);
+
+
+                if (GUI.Button(new Rect((dropDownRect.x - buttonWidth), dropDownRect.y, dropDownRect.width, buttonHeight), ""))
+                {
+                    if (!show)
+                    {
+                        show = true;
+                    }
+                    else
+                    {
+                        show = false;
+                    }
+                }
+
+                if (show)
+                {
+                    scrollViewVector = GUI.BeginScrollView(new Rect((dropDownRect.x - buttonWidth), (dropDownRect.y + buttonHeight), dropDownRect.width, dropDownRect.height), scrollViewVector, new Rect(0, 0, buttonWidth, Mathf.Max(dropDownRect.height, (list.Length * buttonHeight))));
+
+                    GUI.Box(new Rect(0, 0, buttonWidth, (list.Length * buttonHeight)), "");
+
+                    for (int index = 0; index < list.Length; index++)
+                    {
+
+                        if (GUI.Button(new Rect(0, (index * buttonHeight), buttonWidth, buttonHeight), ""))
+                        {
+                            show = false;
+                            indexNumber = index;
+                            selection = list[indexNumber];
+                        }
+
+                        GUI.Label(new Rect(10, (index * buttonHeight) - 1, buttonWidth, buttonHeight), list[index]);
+
+                    }
+
+                    GUI.EndScrollView();
+                }
+                else
+                {
+                    GUI.Label(new Rect(10 + (dropDownRect.x - buttonWidth), dropDownRect.y - 1, buttonWidth, buttonHeight), list[indexNumber]);
+                }
+            }
+
+        }
+
+
+
+
+
+
     }
     
 }

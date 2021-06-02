@@ -7,28 +7,28 @@ using CustomTypes;
 
 namespace ZeroHour_Hacks
 {
-    public partial class hackMain : MonoBehaviour
+    public partial class gameObj : MonoBehaviour
     {
-        public void killAi()
+        void killAi()
         {
             killAll = true;
             return;
         }
-        public void unlockDoors()
+        void unlockDoors()
         {
             foreach (InteractiveDoorSystem door in m_DoorManager.Doors)
             {
                 door.Locked = false;
             }
         }
-        public void killEnemy(ZH_AINav enemy)
+        void killEnemy(ZH_AINav enemy)
         {
             enemy.Surrendering = false;
             enemy.ActiveShooter = true;
             enemy.OnDeath();
             enemy.enabled = false;
         }
-        public void arrestEnemies()
+        void arrestEnemies()
         {
             foreach (ZH_AINav enemy in aiMan.AliveEnemies)
             {
@@ -49,25 +49,25 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        public void completeObjs()
+        void completeObjs()
         {
             foreach (ZH_AIManager.CoopObjectiveVariables Obj in aiMan.Objectives)
             {
                 Obj.Completed = true;
             }
         }
-        public void disarmTraps()
+        void disarmTraps()
         {
             foreach (DoorTrapSystem trap in trapMan.Traps)
             {
                 trap.ACTIVE = false;
             }
         }
-        public void collectWeapons()
+        void collectWeapons()
         {
             aiMan.SecuredWeapons = aiMan.SpawnedEnemies.Count;
         }
-        public void extraPoints()
+        void extraPoints()
         {
             foreach (ZH_AIManager.CoopObjectiveVariables Obj in aiMan.Objectives)
             {
@@ -81,7 +81,7 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        public void doNVG()
+        void doNVG()
         {
             GameSettings[] settings = FindObjectsOfType<GameSettings>();
             foreach (GameSettings set in settings)
@@ -89,7 +89,7 @@ namespace ZeroHour_Hacks
                 set.ANVGScript.On = !set.ANVGScript.On;
             }
         }
-        public bool playerWeaponChanged()
+         bool playerWeaponChanged()
         {
             String currentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
             if (lastWeapon == currentWeapon)
@@ -99,23 +99,23 @@ namespace ZeroHour_Hacks
             lastWeapon = currentWeapon;
             return true;
         }
-        public void _infStam()
+         void _infStam()
         {
             local_User.myWeaponManager.CurrentWeapon.ex_Weight = 0;
         }
-        public void _infStamDisable()
+         void _infStamDisable()
         {
             String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
-            foreach (WeaponInfo.wep weapon in weaponDatas)
+            foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
                 {
-                    local_User.myWeaponManager.CurrentWeapon.ex_Weight = weapon.ex_weight + 0.2f;
+                    local_User.myWeaponManager.CurrentWeapon.ex_Weight = weapon.ex_weight;
                     return;
                 }
             }
         }
-        public void _noRecoil()
+         void _noRecoil()
         {
             m_cameraRig.RecoilX = 0f;
             m_cameraRig.RecoilY = 0f;
@@ -126,10 +126,10 @@ namespace ZeroHour_Hacks
             local_User.myWeaponManager.CurrentWeapon.Properties.MaxSpray = 0f;
             local_User.myWeaponManager.CurrentWeapon.Properties.MinSpray = 0f;
         }
-        public void _noRecoilDisable()
+         void _noRecoilDisable()
         {
             String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
-            foreach (WeaponInfo.wep weapon in weaponDatas)
+            foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
                 {
@@ -143,14 +143,14 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        public void _automaticWeapons()
+         void _automaticWeapons()
         {
             local_User.myWeaponManager.CurrentWeapon.Properties.Automatic = true;
         }
-        public void _automaticWeaponsDisable()
+         void _automaticWeaponsDisable()
         {
             String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
-            foreach (WeaponInfo.wep weapon in weaponDatas)
+            foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
 
                 if (curentWeapon == weapon.name)
@@ -160,7 +160,7 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        public void doSwitchedHack(bool item, Action enabled, Action disabled)
+         void doSwitchedHack(bool item, Action enabled, Action disabled)
         {
             if (item)
             {
@@ -173,7 +173,7 @@ namespace ZeroHour_Hacks
 
         }
 
-        public void doSwitchedHackFloat(bool item, Action enabled, Action disabled)
+         void doSwitchedHackFloat(bool item, Action enabled, Action disabled)
         {
             if (item )
             {
@@ -186,14 +186,14 @@ namespace ZeroHour_Hacks
 
         }
 #if PVT
-        public void _instantHit()
+         void _instantHit()
         {
             local_User.myWeaponManager.CurrentWeapon.Properties.Speed = 10000f;
         }
-        public void _instantHitDisable()
+         void _instantHitDisable()
         {
             String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
-            foreach (WeaponInfo.wep weapon in weaponDatas)
+            foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
                 {
@@ -202,10 +202,10 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        public void _damageHack()
+         void _damageHack()
         {
             String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
-            foreach (WeaponInfo.wep weapon in weaponDatas)
+            foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
                 {
@@ -215,10 +215,10 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        public void _damageHackDisable()
+         void _damageHackDisable()
         {
             String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
-            foreach (WeaponInfo.wep weapon in weaponDatas)
+            foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
                 {
@@ -228,14 +228,14 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        public void _bulletsPerShot()
+         void _bulletsPerShot()
         {
             local_User.myWeaponManager.CurrentWeapon.Properties.BulletsPerShot = Mathf.RoundToInt(bulletsPerShot_Amount.currentValue);
         }
-        public void _bulletsPerShotDisable()
+         void _bulletsPerShotDisable()
         {
             String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
-            foreach (WeaponInfo.wep weapon in weaponDatas)
+            foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
                 {
@@ -244,10 +244,10 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        public void _fireRate()
+         void _fireRate()
         {
             String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
-            foreach (WeaponInfo.wep weapon in weaponDatas)
+            foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
                 {
@@ -256,10 +256,10 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        public void _fireRateDisable()
+         void _fireRateDisable()
         {
             String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
-            foreach (WeaponInfo.wep weapon in weaponDatas)
+            foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
                 {

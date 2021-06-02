@@ -9,11 +9,12 @@ using CustomTypes;
 
 namespace ZeroHour_Hacks
 {
-    public partial class hackMain : MonoBehaviour
+    public partial class gameObj : MonoBehaviour
     {
 #if PVT
-        private void window_AimbotFunct(int id)
+        void window_AimbotFunct(int id)
         {
+
             aimbot = m_GUI.makeCheckbox(aimbot, "Silent Aimbot", 1);
             m_GUI.makeLabel("Aimbot FOV: " + aimbotFOV.ToString("F0"), 2);
             aimbotFOV = m_GUI.makeSlider(aimbotFOV, 10, 300, 3);
@@ -21,7 +22,13 @@ namespace ZeroHour_Hacks
             disableAimkey = m_GUI.makeCheckbox(disableAimkey, "Disable Aimkey", 5, true, aimbot);
 
             teleportBullets = m_GUI.makeCheckbox(teleportBullets, "Shoot Through Walls",7,true, aimbot);
-
+            m_GUI.makeLabel("Aim Target", 8);
+            aimTargetDropDown.makeDropper(9);
+            if (!aimTargetDropDown.show)
+            {
+                m_GUI.makeLabel("Aim Key", 10);
+                aimKeyDropDown.makeDropper(11);
+            }
 
 
             //modal window for aim key?
@@ -31,18 +38,18 @@ namespace ZeroHour_Hacks
             }
         }
 
-        public bool disableAimkey = false;
-        public bool teleportBullets = false;
-        public float offset_BulletSpawner = 0.25f; //0.25f is a good start, seems to work well.
-        public float aimbotFOV = 100f;
-        public bool showFOV = true;
-        public bool aimkeyPressed = false;
+        bool disableAimkey = false;
+        bool teleportBullets = false;
+        float offset_BulletSpawner = 0.25f; //0.25f is a good start, seems to work well.
+        float aimbotFOV = 100f;
+        bool showFOV = true;
+        bool aimkeyPressed = false;
         UserInput playerAimTarget;
 
-        public bool aimbot = false;
-        public bool hasTarget = false;
+        bool aimbot = false;
+        bool hasTarget = false;
        
-        public void aimbot_Controller()
+        void aimbot_Controller()
         {
             if (aimbot)
             {
@@ -56,6 +63,19 @@ namespace ZeroHour_Hacks
                     {
                         hasTarget = true;
                         target = playerAimTarget.Ik_Script.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Head);
+                        switch (aimTargetDropDown.selection)
+                        {
+                            case "Head":
+                                target = playerAimTarget.Ik_Script.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Head);
+                                break;
+                            case "Chest":
+                                target = playerAimTarget.Ik_Script.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Chest);
+                                break;
+                            case "Dick":
+                                target = playerAimTarget.Ik_Script.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Spine);
+                                break;
+                        }
+                        
                     }
                     else
                     {
@@ -80,7 +100,7 @@ namespace ZeroHour_Hacks
                 playerAimTarget = null; //can keep target without this?
             }
         }
-        public void drawFOV()
+        void drawFOV()
         {
             if (aimbot && showFOV)
             {
@@ -90,11 +110,28 @@ namespace ZeroHour_Hacks
                 m_GUI.DrawBox(pt, size, 1, false);
             }
         }
-        public void handleAimkey()
+        void handleAimkey()
         {
             if (!disableAimkey)
             {
-                if (Input.GetKey(KeyCode.Mouse3))
+                KeyCode key = KeyCode.Mouse3;
+                switch (aimKeyDropDown.selection)
+                {
+                    case "Mouse 4":
+                        key = KeyCode.Mouse3;
+                        break;
+                    case "Mouse 5":
+                        key = KeyCode.Mouse4;
+                        break;
+                    case "Left Alt":
+                        key = KeyCode.LeftAlt;
+                        break;
+                    case "Right Mouse":
+                        key = KeyCode.Mouse1;
+                        break;
+                }
+
+                if (Input.GetKey(key))
                 {
                     aimkeyPressed = true;
                 } //aimkey
