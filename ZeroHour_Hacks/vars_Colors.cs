@@ -73,6 +73,7 @@ namespace ZeroHour_Hacks
         float skeletonThickness = 1f;
         bool killAll;
 
+
         bool general_Crosshair = false;
         bool general_Ammo = false;
 

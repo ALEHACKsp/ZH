@@ -11,12 +11,12 @@ namespace ZeroHour_Hacks
     public partial class gameObj : MonoBehaviour
     {
 #if TESTING
-        public static ConsoleWriter con = new ConsoleWriter();
+      //  public static ConsoleWriter con = new ConsoleWriter();
 #endif
 
 #if TESTING
         public void logWeaponAttributes()
-        {
+        {/*
             con.WriteLine("[Weapon: " + local_User.myWeaponManager.CurrentWeapon.Properties.GunName + "]");
             con.WriteLine("\t[noRecoil]");
             con.WriteLine("\t\t[local_User.myWeaponManager.CurrentWeapon.ex_Recoil: " + local_User.myWeaponManager.CurrentWeapon.ex_Recoil.ToString() + "]");
@@ -36,7 +36,8 @@ namespace ZeroHour_Hacks
             con.WriteLine("\t\t[local_User.myWeaponManager.CurrentWeapon.ex_Dmg: " + local_User.myWeaponManager.CurrentWeapon.ex_Dmg.ToString() + "]");
             con.WriteLine("\t\t[local_User.myWeaponManager.CurrentWeapon.Properties.Speed: " + local_User.myWeaponManager.CurrentWeapon.Properties.Speed.ToString() + "]");
             con.WriteLine("[END: " + local_User.myWeaponManager.CurrentWeapon.Properties.GunName + "]\n");
-        }
+        */
+            }
 #endif
 
     }

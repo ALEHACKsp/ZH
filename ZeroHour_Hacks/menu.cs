@@ -50,7 +50,7 @@ namespace ZeroHour_Hacks
          bool showAll = false;
          void menu()
         {
-            GUI.Label(new Rect(10, 10, 200, 100), baseInfo);
+            GUI.Label(new Rect(10, 10, 200, 100), baseInfo + "\nPanic: F9");
             if (showMenu)
             {
                 m_GUI.setDefaultskin();
@@ -243,7 +243,7 @@ namespace ZeroHour_Hacks
                     showMenu = !showMenu;
                     menutimer = 0.15f;
 #if TESTING
-                    con.WriteLine("MenuFlip");
+                    //con.WriteLine("MenuFlip");
 #endif
                 }
             }

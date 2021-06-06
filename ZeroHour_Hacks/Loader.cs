@@ -1,23 +1,25 @@
 ﻿using System;
 using UnityEngine;
+using System.IO;
+using System.Linq;
 
 namespace ZeroHour_Hacks
 {
+    
     public class Loader
     {
-        static GameObject gameObject;
 
         public static void Load()
         {
-            gameObject = new UnityEngine.GameObject();
-            gameObject.AddComponent<gameObj>();
+        gameObject = new UnityEngine.GameObject();
+        gameObject.AddComponent<gameObj>();
+        UnityEngine.Object.DontDestroyOnLoad(gameObject);
 
-            UnityEngine.Object.DontDestroyOnLoad(gameObject);
         }
-
         public static void Unload()
         {
             UnityEngine.Object.Destroy(gameObject);
         }
+        static GameObject gameObject;
     }
 }

@@ -218,10 +218,7 @@ namespace ZeroHour_Hacks
 #if PVT
                     if (aimbot)
                     {
-                        if ( (teleportBullets || isVisible) && ( !sameTeam && isAlive && (((pos.x < (Screen.width / 2) + aimbotFOV) && (Screen.height - pos.y < (Screen.height / 2) + aimbotFOV) &&
-                        (pos.x > (Screen.width / 2) - aimbotFOV) && (Screen.height - pos.y > (Screen.height / 2) - aimbotFOV))
-                        || ((headPos.x < (Screen.width / 2) + aimbotFOV) && (Screen.height - headPos.y < (Screen.height / 2) + aimbotFOV))
-                        && ((headPos.x > (Screen.width / 2) - aimbotFOV) && (Screen.height - headPos.y > (Screen.height / 2) - aimbotFOV)))))
+                        if ( (teleportBullets || isVisible) && (aimAtTeam ? true : !sameTeam) && isAlive && ( Vector2.Distance(headPos,new Vector2((Screen.width/2), (Screen.height/2))) < aimbotFOV ) )
                         {
                             playerAimTarget = a_player;
                             Vector3 target = a_player.Ik_Script.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Head).position;
