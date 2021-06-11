@@ -1,11 +1,6 @@
-﻿using RootMotion.FinalIK;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
 using _GUI;
-using CustomTypes;
-
 
 namespace ZeroHour_Hacks
 {
@@ -16,18 +11,19 @@ namespace ZeroHour_Hacks
          float menutimer = 1f;
 #if !PVT
         Rect window_Solo = new Rect( 205, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 8 + m_GUI.windowHorizontalBuffer);
-        Rect window_Coop = new Rect( 385, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 9 + m_GUI.windowHorizontalBuffer);
-        Rect window_Multi = new Rect( 565, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 18 + m_GUI.windowHorizontalBuffer);
+        Rect window_Coop = new Rect( 385, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 11 + m_GUI.windowHorizontalBuffer);
+        Rect window_Multi = new Rect( 565, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 19 + m_GUI.windowHorizontalBuffer);
         Rect window_General = new Rect(745, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 8 + m_GUI.windowHorizontalBuffer);
 #endif
 
 #if PVT
         Rect window_Solo = new Rect( 210, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 8 + m_GUI.windowHorizontalBuffer);
-        Rect window_Coop = new Rect( 400, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 9 + m_GUI.windowHorizontalBuffer);
-        Rect window_Multi = new Rect( 590, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 18 + m_GUI.windowHorizontalBuffer);
+        Rect window_Coop = new Rect( 400, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 11 + m_GUI.windowHorizontalBuffer);
+        Rect window_Multi = new Rect( 590, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 19 + m_GUI.windowHorizontalBuffer);
         Rect window_General = new Rect( 780, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 15 + m_GUI.windowHorizontalBuffer);
         Rect window_Aimbot = new Rect(970, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 12 + m_GUI.windowHorizontalBuffer);
-         static int numberOfWindows = 5;
+
+        static int numberOfWindows = 5;
         Rect toolbarLocation = new Rect(200, 1, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 4)) * numberOfWindows, 30);
 #endif
 #if !PVT
@@ -56,6 +52,7 @@ namespace ZeroHour_Hacks
                 m_GUI.setDefaultskin();
 
                 dockWindows = GUI.Toggle(new Rect(75, 10, 100, 30), dockWindows, "Dock Windows");
+
                 showAll = GUI.Toggle(new Rect(75, 30, 100, 30), showAll, "Show All");
 
                 if (dockWindows)
@@ -165,9 +162,11 @@ namespace ZeroHour_Hacks
             esp_AI_Distance = m_GUI.makeCheckbox(esp_AI_Distance, "AI Distance", 3, true, esp_AI_Master);
             esp_AI_Box = m_GUI.makeCheckbox(esp_AI_Box, "AI Box", 4, true, esp_AI_Master);
             esp_Objective = m_GUI.makeCheckbox(esp_Objective, "Objectives", 5, true, esp_AI_Master);
-            esp_Traps = m_GUI.makeCheckbox(esp_Traps, "Door Traps", 6, true, esp_AI_Master);
-            esp_Civs = m_GUI.makeCheckbox(esp_Civs, "Civillians", 7, true, esp_AI_Master);
-            esp_AI_Headdot = m_GUI.makeCheckbox(esp_AI_Headdot, "Head Dot", 8, true, esp_AI_Master);
+            esp_Civs = m_GUI.makeCheckbox(esp_Civs, "Civillians", 6, true, esp_AI_Master);
+            esp_AI_Headdot = m_GUI.makeCheckbox(esp_AI_Headdot, "Head Dot", 7, true, esp_AI_Master);
+            esp_Throwables = m_GUI.makeCheckbox(esp_Throwables, "Throwables", 8);
+            esp_Traps = m_GUI.makeCheckbox(esp_Traps, "Door Traps", 9, true);
+            esp_Breakers = m_GUI.makeCheckbox(esp_Breakers, "Breaker Box", 10);
             if (!dockWindows)
             {
                 GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
@@ -186,13 +185,13 @@ namespace ZeroHour_Hacks
             esp_Headdot = m_GUI.makeCheckbox(esp_Headdot, "Head Marker", 9, true, esp_Master);
             esp_Weapon = m_GUI.makeCheckbox(esp_Weapon, "Weapon", 10, true, esp_Master);
             esp_DeadBodies = m_GUI.makeCheckbox(esp_DeadBodies, "Dead Players", 11,true,esp_Master);
-            esp_Throwables = m_GUI.makeCheckbox(esp_Throwables, "Throwables", 12);
-            esp_Breakers = m_GUI.makeCheckbox(esp_Breakers, "Breaker Box", 13);
-            esp_Skeleton = m_GUI.makeCheckbox(esp_Skeleton, "Skeletons", 14);
-            esp_HPSkeleton = m_GUI.makeCheckbox(esp_HPSkeleton, "HP Skeleton", 15);
-            m_GUI.makeLabel("Bone Thiccness: " + Mathf.RoundToInt(skeletonThickness).ToString(), 16);
-            skeletonThickness = m_GUI.makeSlider(skeletonThickness, 1, 3, 17);
-
+            esp_Skeleton = m_GUI.makeCheckbox(esp_Skeleton, "Skeletons", 12,true, esp_Master);
+            esp_HPSkeleton = m_GUI.makeCheckbox(esp_HPSkeleton, "HP Skeleton", 13,true, (esp_Master && esp_Skeleton) );
+            m_GUI.makeLabel("Bone Thiccness: " + Mathf.RoundToInt(skeletonThickness).ToString(), 14);
+            skeletonThickness = m_GUI.makeSlider(skeletonThickness, 1, 3, 15);
+            esp_Throwables = m_GUI.makeCheckbox(esp_Throwables, "Throwables", 16);
+            esp_Traps = m_GUI.makeCheckbox(esp_Traps, "Door Traps", 17, true);
+            esp_Breakers = m_GUI.makeCheckbox(esp_Breakers, "Breaker Box", 18);
 
 
             if (!dockWindows)
@@ -214,16 +213,16 @@ namespace ZeroHour_Hacks
             automaticWeapons= m_GUI.makeCheckbox(automaticWeapons, "Force Full Auto", 6);
             infStamina= m_GUI.makeCheckbox(infStamina, "Infinite Stamina", 7);
 #if PVT
-            fireRate= m_GUI.makeCheckbox(fireRate, "Fire Rate x" + fireRate_Multiplier.currentValue.ToString("F0"), 8);
-            fireRate_Multiplier.currentValue = m_GUI.makeSlider(fireRate_Multiplier.currentValue, 1, 20, 9, fireRate, true);
+            fireRate= m_GUI.makeCheckbox(fireRate, "Fire Rate Multiplier x" + fireRate_Multiplier.currentValue.ToString("F1"), 8);
+            fireRate_Multiplier.currentValue = m_GUI.makeSlider(fireRate_Multiplier.currentValue, 1, 5, 9, fireRate, false);
 
-            bulletsPerShot= m_GUI.makeCheckbox(bulletsPerShot, "Bullets Per Shot " + bulletsPerShot_Amount.currentValue.ToString("F0"), 10);
-            bulletsPerShot_Amount.currentValue = m_GUI.makeSlider(bulletsPerShot_Amount.currentValue, 1, 20, 11, bulletsPerShot, true);
+            bulletsPerShot= m_GUI.makeCheckbox(bulletsPerShot, "Bullets Multiplier x" + bulletsPerShot_Amount.currentValue.ToString("F0"), 10);
+            bulletsPerShot_Amount.currentValue = m_GUI.makeSlider(bulletsPerShot_Amount.currentValue, 1, 5, 11, bulletsPerShot, true);
 
             instantHit = m_GUI.makeCheckbox(instantHit, "Instant Hit", 12);
 
-            damageHack = m_GUI.makeCheckbox(damageHack, "Damage Hack x" + damageHack_Amount_Multiplier.currentValue.ToString("F0"), 13);
-            damageHack_Amount_Multiplier.currentValue = m_GUI.makeSlider(damageHack_Amount_Multiplier.currentValue, 1, 100, 14, damageHack, true);
+            damageHack = m_GUI.makeCheckbox(damageHack, "Damage Multiplier x" + damageHack_Amount_Multiplier.currentValue.ToString("F0"), 13);
+            damageHack_Amount_Multiplier.currentValue = m_GUI.makeSlider(damageHack_Amount_Multiplier.currentValue, 1, 10, 14, damageHack, true);
 
 #endif
             if (!dockWindows)

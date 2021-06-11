@@ -230,7 +230,15 @@ namespace ZeroHour_Hacks
         }
          void _bulletsPerShot()
         {
-            local_User.myWeaponManager.CurrentWeapon.Properties.BulletsPerShot = Mathf.RoundToInt(bulletsPerShot_Amount.currentValue);
+            String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
+            foreach (WeaponInfo.wep weapon in weps.weaponDatas)
+            {
+                if (curentWeapon == weapon.name)
+                {
+                    local_User.myWeaponManager.CurrentWeapon.Properties.BulletsPerShot = Mathf.RoundToInt(bulletsPerShot_Amount.currentValue) * weapon.BulletsPerShot;
+                    return;
+                }
+            }
         }
          void _bulletsPerShotDisable()
         {

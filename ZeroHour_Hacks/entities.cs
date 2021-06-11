@@ -36,18 +36,30 @@ namespace ZeroHour_Hacks
                         m_cameraRig = local_User.myWeaponManager.CamScript;
                         if (general_Ammo)
                         {
-                            playerHud();
+                            try
+                            {
+                                playerHud();
+                            }
+                            catch { }
                         }
                         if (general_Crosshair)
                         {
-                            crosshairDynamic();
+                            try
+                            {
+                                crosshairDynamic();
+                            }
+                            catch { }
                         }
                     }
                     else
                     {
                         if (esp_Master)
                         {
-                            drawPlayerEsp(a_player);
+                            try
+                            {
+                                drawPlayerEsp(a_player);
+                            }
+                            catch { }
                         }
                     }
 
@@ -56,7 +68,11 @@ namespace ZeroHour_Hacks
                     {
                         foreach (ThrowableSystem throwable in a_player.myWeaponManager.ThrowableWeapon)
                         {
-                            throwableESP(throwable);
+                            try
+                            {
+                                throwableESP(throwable);
+                            }
+                            catch { }
                         }
                     }
 
@@ -72,14 +88,19 @@ namespace ZeroHour_Hacks
                 {
                     if (aiMan.AliveEnemies.Count > 0)
                     {
-                        foreach (ZH_AINav enemy in aiMan.AliveEnemies)
+                        try
                         {
-                            drawEnemyEsp(enemy);
-                            if (killAll)
+                            foreach (ZH_AINav enemy in aiMan.AliveEnemies)
                             {
-                                killEnemy(enemy);
+                                drawEnemyEsp(enemy);
+                                if (killAll)
+                                {
+                                    killEnemy(enemy);
+                                }
                             }
                         }
+                        catch { }
+
                         if (killAll) { killAll = false; }
                     }
                 }
@@ -92,11 +113,15 @@ namespace ZeroHour_Hacks
                 //Objectives
                 if (aiMan.Objectives.Length > 0)
                 {
-                    foreach (ZH_AIManager.CoopObjectiveVariables Obj in aiMan.Objectives)
+                    try
                     {
-                        objectiveEsp(Obj);
+                        foreach (ZH_AIManager.CoopObjectiveVariables Obj in aiMan.Objectives)
+                        {
+                            objectiveEsp(Obj);
 
+                        }
                     }
+                    catch { }
                 }
             }
 
@@ -107,10 +132,14 @@ namespace ZeroHour_Hacks
             {
                 if (m_Civs.Length > 0)
                 {
-                    foreach (ZH_Civillian civ in m_Civs)
+                    try
                     {
-                        drawCivEsp(civ);
+                        foreach (ZH_Civillian civ in m_Civs)
+                        {
+                            drawCivEsp(civ);
+                        }
                     }
+                    catch { }
                 }
             }
         }
@@ -121,10 +150,14 @@ namespace ZeroHour_Hacks
                 //Door Traps
                 if (trapMan.Traps.Count > 0)
                 {
-                    foreach (DoorTrapSystem trap in trapMan.Traps)
+                    try
                     {
-                        drawTrapEsp(trap);
+                        foreach (DoorTrapSystem trap in trapMan.Traps)
+                        {
+                            drawTrapEsp(trap);
+                        }
                     }
+                    catch { }
                 }
             }
         }
@@ -134,7 +167,11 @@ namespace ZeroHour_Hacks
             {
                 foreach (BreakerBoxSystem box in breakers)
                 {
-                    DrawBreakerEsp(box);
+                    try
+                    {
+                        DrawBreakerEsp(box);
+                    }
+                    catch { }
                 }
             }
         }
@@ -143,49 +180,78 @@ namespace ZeroHour_Hacks
             updateTimer -= Time.deltaTime;
             if (updateTimer <= 0f)
             {
+                try
+                {
+                    m_Users = FindObjectsOfType<UserInput>(); //must be first!
+                }
+                catch { }
 
-                m_Users = FindObjectsOfType<UserInput>(); //must be first!
-                if (m_Camera == null)
+                try
                 {
-                    m_Camera = Camera.main;
+
+                    if (esp_Traps)
+                    {
+                        trapMan = FindObjectOfType<DoorTrapManager>();
+                    }
                 }
-                if (esp_Traps && m_Users.Length < 6)
+                catch { }
+
+                try
                 {
-                    trapMan = FindObjectOfType<DoorTrapManager>();
+                    if (m_DoorManager == null)
+                    {
+                        m_DoorManager = FindObjectOfType<DoorManager>();
+                    }
                 }
-                if (m_DoorManager == null)
-                {
-                    m_DoorManager = FindObjectOfType<DoorManager>();
-                }
+                catch { }
 
                 updateTimer = 1f;
             }
         }
-
         void populateEntityLists_late()
         {
             updateTimer_ -= Time.deltaTime;
             if (updateTimer_ <= 0f)
             {
-                m_Camera = Camera.main;
+                try
+                {
+                    if (m_Camera == null)
+                    {
+                        m_Camera = Camera.main;
+                    }
+                }
+                catch { }
 
-                if (esp_Civs && m_Users.Length < 6)
+                try
                 {
-                    m_Civs = FindObjectsOfType<ZH_Civillian>();
+                    if (esp_Civs)
+                    {
+                        m_Civs = FindObjectsOfType<ZH_Civillian>();
+                    }
                 }
-                if (esp_AI_Master && m_Users.Length < 6)
-                {
-                    aiMan = FindObjectOfType<ZH_AIManager>();
-                }
+                catch { }
 
-                if (esp_Breakers)
+                try
                 {
-                    breakers = FindObjectsOfType<BreakerBoxSystem>();
+                    if (esp_AI_Master)
+                    {
+                        aiMan = FindObjectOfType<ZH_AIManager>();
+                    }
                 }
+                catch { }
+
+                try
+                {
+                    if (esp_Breakers)
+                    {
+                        breakers = FindObjectsOfType<BreakerBoxSystem>();
+                    }
+                }
+                catch { }
+
                 updateTimer_ = 5f;
             }
         }
-
 
     }
 }

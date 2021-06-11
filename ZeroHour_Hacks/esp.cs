@@ -1,10 +1,7 @@
 ﻿using RootMotion.FinalIK;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using _GUI;
-using CustomTypes;
 
 
 namespace ZeroHour_Hacks

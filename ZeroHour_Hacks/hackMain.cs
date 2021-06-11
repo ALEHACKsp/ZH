@@ -10,7 +10,8 @@ namespace ZeroHour_Hacks
 {
     public partial class gameObj : MonoBehaviour
     {
-        String buildNo = "v0.995";
+        String buildNo = "v1.10";
+
         private float CDTimer = 21600;
         BreakerBoxSystem[] breakers;
 

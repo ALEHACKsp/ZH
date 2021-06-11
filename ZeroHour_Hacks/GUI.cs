@@ -96,7 +96,7 @@ namespace _GUI
                 Vector2 pos = new Vector2(windowHorizontalBuffer, windowStackBuffer * stackNo);
                 Vector2 size = new Vector2(buttonWidth, buttonHeight);
                 GUI.Label(new Rect(pos, size), "  - " + text);
-                return false;
+                return item;
             }
             return false;
 

@@ -1,8 +1,5 @@
-﻿using RootMotion.FinalIK;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using _GUI;
 using CustomTypes;
 
 namespace ZeroHour_Hacks
@@ -49,17 +46,17 @@ namespace ZeroHour_Hacks
         /////////////
 
         bool esp_AI_Master = false;
-       bool esp_AI_Distance = false;
-        bool esp_AI_Box = false;
+        bool esp_AI_Distance = true;
+        bool esp_AI_Box = true;
         bool esp_AI_Headdot = false;
         bool esp_Objective = false;
         bool esp_Traps = false;
         bool esp_Civs = false;
 
         bool esp_Master = false;
-        bool esp_Team = false;
-        bool esp_Distance = false;
-        bool esp_Box = false;
+        bool esp_Team = true;
+        bool esp_Distance = true;
+        bool esp_Box = true;
         bool esp_Headdot = false;
         bool esp_HPBars = false;
         bool esp_Throwables = false;

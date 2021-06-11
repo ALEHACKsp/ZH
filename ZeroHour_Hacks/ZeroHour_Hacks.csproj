@@ -43,6 +43,14 @@
     <OutputPath>bin\Public_Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ACTk.Examples.Genuine.Runtime">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Zero Hour\Zero Hour_Data\Managed\ACTk.Examples.Genuine.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ACTk.Examples.Runtime">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Zero Hour\Zero Hour_Data\Managed\ACTk.Examples.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="ACTk.Runtime, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Zero Hour\Zero Hour_Data\Managed\ACTk.Runtime.dll</HintPath>
@@ -66,6 +74,10 @@
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Zero Hour\Zero Hour_Data\Managed\com.nephasto.AdvancedNightVisionAsset.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="GPUInstancer">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Zero Hour\Zero Hour_Data\Managed\GPUInstancer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="HeathenEngineering.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Zero Hour\Zero Hour_Data\Managed\HeathenEngineering.Core.dll</HintPath>
@@ -74,6 +86,18 @@
     <Reference Include="HeathenEngineering.Core.Toolbox, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Zero Hour\Zero Hour_Data\Managed\HeathenEngineering.Core.Toolbox.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="InControl">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Zero Hour\Zero Hour_Data\Managed\InControl.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="InControl.Examples">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Zero Hour\Zero Hour_Data\Managed\InControl.Examples.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Security">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Zero Hour\Zero Hour_Data\Managed\Mono.Security.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Photon3Unity3D, Version=4.1.4.4, Culture=neutral, processorArchitecture=MSIL">
