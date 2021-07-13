@@ -1,161 +1,120 @@
-﻿using System;
+﻿using _GUI;
 using UnityEngine;
-using _GUI;
 
 namespace ZeroHour_Hacks
 {
 
     public partial class gameObj : MonoBehaviour
     {
-        String baseInfo = "Трискит\n";
-         float menutimer = 1f;
-#if !PVT
-        Rect window_Solo = new Rect( 205, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 8 + m_GUI.windowHorizontalBuffer);
-        Rect window_Coop = new Rect( 385, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 11 + m_GUI.windowHorizontalBuffer);
-        Rect window_Multi = new Rect( 565, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 19 + m_GUI.windowHorizontalBuffer);
-        Rect window_General = new Rect(745, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 8 + m_GUI.windowHorizontalBuffer);
-#endif
 
-#if PVT
-        Rect window_Solo = new Rect( 210, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 8 + m_GUI.windowHorizontalBuffer);
-        Rect window_Coop = new Rect( 400, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 11 + m_GUI.windowHorizontalBuffer);
-        Rect window_Multi = new Rect( 590, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 19 + m_GUI.windowHorizontalBuffer);
-        Rect window_General = new Rect( 780, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 15 + m_GUI.windowHorizontalBuffer);
-        Rect window_Aimbot = new Rect(970, 35, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 12 + m_GUI.windowHorizontalBuffer);
-
-        static int numberOfWindows = 5;
-        Rect toolbarLocation = new Rect(200, 1, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 4)) * numberOfWindows, 30);
-#endif
-#if !PVT
-         static int numberOfWindows = 4;
-        Rect toolbarLocation = new Rect(200, 1, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 3))*numberOfWindows, 30);
-         string[]  toolBarContent = new string[] {"Solo Features","Coop / AI ESP", "Multiplayer ESP", "General Features"};
-#endif
-         int toolBarCurrent = -1;
-
-#if PVT
-         string[]  toolBarContent = new string[] {"Solo Features","Coop / AI ESP", "Multiplayer ESP", "General Features", "Aimbot"};
+#if TESTING
+        string baseInfo = "Zero Hax\nTESTING BUILD\n";
+#else
+        private string baseInfo = "Zero Hax\n";
 #endif
         
-          static string[] ops_Aimbot = { "Head", "Chest", "Dick" };
-         m_GUI.dropDown aimTargetDropDown = new m_GUI.dropDown(ops_Aimbot, 150, 20);
-         static string[] ops_Aimkey = { "Mouse 4","Mouse 5", "Left Alt", "Right Mouse"};
-        m_GUI.dropDown aimKeyDropDown = new m_GUI.dropDown(ops_Aimkey, 150, 20);
 
-         bool dockWindows = true;
-         bool showAll = false;
-         void menu()
+
+        private Rect Rect_Menu = new Rect(baseHorizontalOffset - m_GUI.windowHorizontalBuffer, 0, (menuButtonOffset * 7), verticalWindowOffset - 3);
+        private Rect Rect_Solo = new Rect(baseHorizontalOffset, verticalWindowOffset, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 8 + m_GUI.windowHorizontalBuffer);
+        private Rect Rect_Coop = new Rect((menuButtonOffset) + baseHorizontalOffset, verticalWindowOffset, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 11 + m_GUI.windowHorizontalBuffer);
+        private Rect Rect_Multi = new Rect((menuButtonOffset * 2) + baseHorizontalOffset, verticalWindowOffset, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 20 + m_GUI.windowHorizontalBuffer);
+        private Rect Rect_General = new Rect((menuButtonOffset * 3) + baseHorizontalOffset, verticalWindowOffset, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 9 + m_GUI.windowHorizontalBuffer);
+        private Rect Rect_Aimbot = new Rect((menuButtonOffset * 4) + baseHorizontalOffset, verticalWindowOffset, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 12 + m_GUI.windowHorizontalBuffer);
+        private Rect Rect_Meme = new Rect((menuButtonOffset * 5) + baseHorizontalOffset, verticalWindowOffset, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 10 + m_GUI.windowHorizontalBuffer);
+        private Rect Rect_Utility = new Rect((menuButtonOffset * 6) + baseHorizontalOffset, verticalWindowOffset, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)), m_GUI.buttonHeight * 5 + m_GUI.windowHorizontalBuffer);
+
+
+
+
+        private void Win_MenuFunc(int id)
         {
-            GUI.Label(new Rect(10, 10, 200, 100), baseInfo + "\nPanic: F9");
+            show_SoloWindow     = m_GUI.MenuWindowSwitch(show_SoloWindow, "Solo", new Vector2(m_GUI.windowHorizontalBuffer, 5));
+            show_CoopWindow     = m_GUI.MenuWindowSwitch(show_CoopWindow, "Coop", new Vector2(menuButtonOffset * 1 + m_GUI.windowHorizontalBuffer, 5));
+            show_MultiWindow    = m_GUI.MenuWindowSwitch(show_MultiWindow, "Multiplayer", new Vector2(menuButtonOffset * 2 + m_GUI.windowHorizontalBuffer, 5));
+            show_GeneralWindow  = m_GUI.MenuWindowSwitch(show_GeneralWindow, "General", new Vector2(menuButtonOffset * 3 + m_GUI.windowHorizontalBuffer, 5));
+            show_AimbotWindow   = m_GUI.MenuWindowSwitch(show_AimbotWindow, "Aimbot", new Vector2(menuButtonOffset * 4 + m_GUI.windowHorizontalBuffer, 5));
+            show_MemeWindow     = m_GUI.MenuWindowSwitch(show_MemeWindow, "Meme", new Vector2(menuButtonOffset * 5 + m_GUI.windowHorizontalBuffer, 5));
+            show_UtilityWindow  = m_GUI.MenuWindowSwitch(show_UtilityWindow, "Utility", new Vector2(menuButtonOffset * 6 + m_GUI.windowHorizontalBuffer, 5));
+        }
+
+        private void RenderMenu()
+        {
+
+            GUI.Label(new Rect(10, 10, 200, 100), baseInfo + "\nPanic: F9 | Home To Hide All");
+
+            GUI.Label(new Rect(75, 10, 100, 30), (showMenu ? "Insert to Hide" : "Insert for Menu"));
+
             if (showMenu)
             {
                 m_GUI.setDefaultskin();
 
-                dockWindows = GUI.Toggle(new Rect(75, 10, 100, 30), dockWindows, "Dock Windows");
+                Rect_Menu = GUI.Window(0, Rect_Menu, Win_MenuFunc, string.Empty);
 
-                showAll = GUI.Toggle(new Rect(75, 30, 100, 30), showAll, "Show All");
-
-                if (dockWindows)
-                {
-#if PVT
-                    window_Solo.x = 210;
-                    window_Coop.x = 400;
-                    window_Multi.x = 590;
-                    window_General.x = 780;
-                    window_Solo.y = 35;
-                    window_Coop.y = 35;
-                    window_Multi.y = 35;
-                    window_General.y = 35;
-                    window_Aimbot.x = 970;
-                    window_Aimbot.y = 35;
-#elif !PVT
-                    window_Solo.x = 205;
-                    window_Coop.x = 385;
-                    window_Multi.x = 565;
-                    window_General.x = 745;
-                    window_Solo.y = 35;
-                    window_Coop.y = 35;
-                    window_Multi.y = 35;
-                    window_General.y = 35;
-#endif
-                }
-
-                toolBarCurrent = GUI.Toolbar(toolbarLocation, toolBarCurrent, toolBarContent);
-#if PVT
+                //Janky drop downs for aimbot options
                 if (aimTargetDropDown.show)
                 {
-                    window_Aimbot.height = m_GUI.buttonHeight * 13 + m_GUI.windowHorizontalBuffer;
+                    Rect_Aimbot.height = m_GUI.buttonHeight * 13 + m_GUI.windowHorizontalBuffer;
                 }
                 else if (aimKeyDropDown.show)
                 {
-                    window_Aimbot.height = m_GUI.buttonHeight * 16 + m_GUI.windowHorizontalBuffer;
+                    Rect_Aimbot.height = m_GUI.buttonHeight * 16 + m_GUI.windowHorizontalBuffer;
                 }
                 else
                 {
-                    window_Aimbot.height = m_GUI.buttonHeight * 12 + m_GUI.windowHorizontalBuffer;
+                    Rect_Aimbot.height = m_GUI.buttonHeight * 12 + m_GUI.windowHorizontalBuffer;
                 }
-#endif
-                if (showAll)
-                {
-                    window_Solo = GUI.Window(0, window_Solo, window_SoloFunct, "Solo Only");
-                    window_Coop = GUI.Window(1, window_Coop, window_CoopFunct, "Coop");
-                    window_Multi = GUI.Window(2, window_Multi, window_MultiFunct, "Multiplayer");
-                    window_General = GUI.Window(3, window_General, window_GeneralFunct, "General");
-#if PVT
-                    window_Aimbot = GUI.Window(4, window_Aimbot, window_AimbotFunct, "Aimbot - Players Only");
-#endif
-                }
-                else
-                {
 
-                    switch (toolBarCurrent)
-                    {
-                        case 0:
-                            window_Solo = GUI.Window(0, window_Solo, window_SoloFunct, "Solo Only");
-                            break;
-                        case 1:
-                            window_Coop = GUI.Window(1, window_Coop, window_CoopFunct, "Coop");
-                            break;
-                        case 2:
-                            window_Multi = GUI.Window(2, window_Multi, window_MultiFunct, "Multiplayer");
-                            break;
-                        case 3:
-                            window_General = GUI.Window(3, window_General, window_GeneralFunct, "General");
-                            break;
-                        case 4:
-#if PVT
-                            window_Aimbot = GUI.Window(4, window_Aimbot, window_AimbotFunct, "Aimbot - Players Only");
-#endif
-                            break;
-                        default:
-                            break;
-                    }
+                if (show_SoloWindow)
+                {
+                    Rect_Solo = GUI.Window(1, Rect_Solo, Win_SoloFunc, "Solo Only");
                 }
+                if (show_CoopWindow)
+                {
+                    Rect_Coop = GUI.Window(2, Rect_Coop, Win_CoopFunc, "Coop");
+                }
+                if (show_MultiWindow)
+                {
+                    Rect_Multi = GUI.Window(3, Rect_Multi, Win_MPFunc, "Multiplayer");
+                }
+                if (show_GeneralWindow)
+                {
+                    Rect_General = GUI.Window(4, Rect_General, Win_GeneralFunc, "General");
+                }
+                if (show_AimbotWindow)
+                {
+                    Rect_Aimbot = GUI.Window(5, Rect_Aimbot, Win_AimbotFunc, "Aimbot - Players Only");
+                }
+
+                if (show_MemeWindow)
+                {
+                    Rect_Meme = GUI.Window(6, Rect_Meme, Win_MemeFunct, "Meme");
+                }
+                if (show_UtilityWindow)
+                {
+                    Rect_Utility = GUI.Window(7, Rect_Utility, Win_UtilityFunc, "Utility");
+                }
+
 #if TESTING
-                    window_test = GUI.Window(5, window_test, window_TestFunct, "Test");
+                Rect_test = GUI.Window(8, Rect_test, Rect_TestFunct, "Test");
 #endif
-                
+
             }
-            else
-            {
-                GUI.Label(new Rect(75, 10, 100, 30), "Insert for Menu");
-            }
-        }
-        private void window_SoloFunct(int id)
+
+        }//end RenderMenu
+
+        private void Win_SoloFunc(int id)
         {
-            m_GUI.makeButton(unlockDoors, "Unlock Doors", 1);
-            m_GUI.makeButton(disarmTraps, "Disarm Traps", 2);
-            m_GUI.makeButton(arrestEnemies, "Arrest Enemies", 3);
-            m_GUI.makeButton(killAi, "Kill Enemies", 4);
-            m_GUI.makeButton(completeObjs, "Complete Objectives", 5);
-            m_GUI.makeButton(collectWeapons, "Collect Weapons", 6);
-            m_GUI.makeButton(extraPoints, "Extra Points", 7);
-            if (!dockWindows)
-            {
-                GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
-            }
+            m_GUI.makeButton(UnlockAllDoors_SP, "Unlock Doors", 1);
+            m_GUI.makeButton(DisarmAllDoorTraps_SP, "Disarm Traps", 2);
+            m_GUI.makeButton(ArrestAIDefenders, "Arrest Enemies", 3);
+            m_GUI.makeButton(KillAIDefender, "Kill Enemies", 4);
+            m_GUI.makeButton(ForceCompleteObjectives_SP, "Complete Objectives", 5);
+            m_GUI.makeButton(CollectDroppedAIWeapons, "Collect Weapons", 6);
+            m_GUI.makeButton(ExtraSPPoints, "Extra Points", 7);
+            GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
         }
-        private void window_CoopFunct(int id)
+        private void Win_CoopFunc(int id)
         {
             m_GUI.makeLabel("AI ESP", 1);
             esp_AI_Master = m_GUI.makeCheckbox(esp_AI_Master, "Enable ESP", 2);
@@ -167,12 +126,11 @@ namespace ZeroHour_Hacks
             esp_Throwables = m_GUI.makeCheckbox(esp_Throwables, "Throwables", 8);
             esp_Traps = m_GUI.makeCheckbox(esp_Traps, "Door Traps", 9, true);
             esp_Breakers = m_GUI.makeCheckbox(esp_Breakers, "Breaker Box", 10);
-            if (!dockWindows)
-            {
-                GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
-            }
+
+            GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
+
         }
-        private void window_MultiFunct(int id)
+        private void Win_MPFunc(int id)
         {
             m_GUI.makeLabel("Player ESP", 1);
             esp_Master = m_GUI.makeCheckbox(esp_Master, "Enable ESP", 2);
@@ -184,54 +142,94 @@ namespace ZeroHour_Hacks
             esp_Name = m_GUI.makeCheckbox(esp_Name, "Name", 8, true, esp_Master);
             esp_Headdot = m_GUI.makeCheckbox(esp_Headdot, "Head Marker", 9, true, esp_Master);
             esp_Weapon = m_GUI.makeCheckbox(esp_Weapon, "Weapon", 10, true, esp_Master);
-            esp_DeadBodies = m_GUI.makeCheckbox(esp_DeadBodies, "Dead Players", 11,true,esp_Master);
-            esp_Skeleton = m_GUI.makeCheckbox(esp_Skeleton, "Skeletons", 12,true, esp_Master);
-            esp_HPSkeleton = m_GUI.makeCheckbox(esp_HPSkeleton, "HP Skeleton", 13,true, (esp_Master && esp_Skeleton) );
+            esp_DeadBodies = m_GUI.makeCheckbox(esp_DeadBodies, "Dead Players", 11, true, esp_Master);
+            esp_Skeleton = m_GUI.makeCheckbox(esp_Skeleton, "Skeletons", 12, true, esp_Master);
+            esp_HPSkeleton = m_GUI.makeCheckbox(esp_HPSkeleton, "HP Skeleton", 13, true, (esp_Master && esp_Skeleton));
             m_GUI.makeLabel("Bone Thiccness: " + Mathf.RoundToInt(skeletonThickness).ToString(), 14);
             skeletonThickness = m_GUI.makeSlider(skeletonThickness, 1, 3, 15);
             esp_Throwables = m_GUI.makeCheckbox(esp_Throwables, "Throwables", 16);
             esp_Traps = m_GUI.makeCheckbox(esp_Traps, "Door Traps", 17, true);
             esp_Breakers = m_GUI.makeCheckbox(esp_Breakers, "Breaker Box", 18);
+            esp_Hostages = m_GUI.makeCheckbox(esp_Hostages, "m_BombHostageTriggers", 19);
 
+            GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
 
-            if (!dockWindows)
-            {
-                GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
-            }
         }
-        private void window_GeneralFunct(int id)
+
+        private void Win_GeneralFunc(int id)
         {
             general_Crosshair = m_GUI.makeCheckbox(general_Crosshair, "Dynamic Aimpoint", 1);
 
             general_Ammo = m_GUI.makeCheckbox(general_Ammo, "Ammo Counter", 2);
 
             m_GUI.makeLabel("Force NVGs", 3);
-            m_GUI.makeButton(doNVG, "Toggle NVG", 4);
+            m_GUI.makeButton(ForceToggleNVG, "Toggle NVG", 4);
 
 
-            noRecoil= m_GUI.makeCheckbox(noRecoil, "No Recoil", 5);
-            automaticWeapons= m_GUI.makeCheckbox(automaticWeapons, "Force Full Auto", 6);
-            infStamina= m_GUI.makeCheckbox(infStamina, "Infinite Stamina", 7);
-#if PVT
-            fireRate= m_GUI.makeCheckbox(fireRate, "Fire Rate Multiplier x" + fireRate_Multiplier.currentValue.ToString("F1"), 8);
-            fireRate_Multiplier.currentValue = m_GUI.makeSlider(fireRate_Multiplier.currentValue, 1, 5, 9, fireRate, false);
+            noRecoil = m_GUI.makeCheckbox(noRecoil, "No Recoil", 5);
+            automaticWeapons = m_GUI.makeCheckbox(automaticWeapons, "Force Full Auto", 6);
+            infStamina = m_GUI.makeCheckbox(infStamina, "Infinite Stamina", 7);
+            noFlash = m_GUI.makeCheckbox(noFlash, "Anti-Flash", 8);
 
-            bulletsPerShot= m_GUI.makeCheckbox(bulletsPerShot, "Bullets Multiplier x" + bulletsPerShot_Amount.currentValue.ToString("F0"), 10);
-            bulletsPerShot_Amount.currentValue = m_GUI.makeSlider(bulletsPerShot_Amount.currentValue, 1, 5, 11, bulletsPerShot, true);
-
-            instantHit = m_GUI.makeCheckbox(instantHit, "Instant Hit", 12);
-
-            damageHack = m_GUI.makeCheckbox(damageHack, "Damage Multiplier x" + damageHack_Amount_Multiplier.currentValue.ToString("F0"), 13);
-            damageHack_Amount_Multiplier.currentValue = m_GUI.makeSlider(damageHack_Amount_Multiplier.currentValue, 1, 10, 14, damageHack, true);
-
-#endif
-            if (!dockWindows)
-            {
-                GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
-            }
+            GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
 
         }
-         void menuTimerOperation()
+
+
+        private void Win_AimbotFunc(int id)
+        {
+
+            aimbot = m_GUI.makeCheckbox(aimbot, "Silent Aimbot", 1);
+            m_GUI.makeLabel("Aimbot FOV: " + aimbotFOV.ToString("F0"), 2);
+            aimbotFOV = m_GUI.makeSlider(aimbotFOV, 10, 300, 3);
+            showFOV = m_GUI.makeCheckbox(showFOV, "Show FOV", 4, true, aimbot);
+            disableAimkey = m_GUI.makeCheckbox(disableAimkey, "Disable Aimkey", 5, true, aimbot);
+            aimAtTeam = m_GUI.makeCheckbox(aimAtTeam, "Aim At Team", 6, true, aimbot);
+            teleportBullets = m_GUI.makeCheckbox(teleportBullets, "Shoot Through Walls", 7, true, aimbot);
+            m_GUI.makeLabel("Aim Target", 8);
+            aimTargetDropDown.makeDropper(9);
+            if (!aimTargetDropDown.show)
+            {
+                m_GUI.makeLabel("Aim Key", 10);
+                aimKeyDropDown.makeDropper(11);
+            }
+            GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
+        }
+
+        private void Win_MemeFunct(int id)
+        {
+            fireRate = m_GUI.makeCheckbox(fireRate, "Fire Rate Mult. x" + fireRate_Multiplier.currentValue.ToString("F1"), 1);
+
+            fireRate_Multiplier.currentValue = m_GUI.makeSlider(fireRate_Multiplier.currentValue, 1, 5, 2, fireRate, false);
+
+            bulletsPerShot = m_GUI.makeCheckbox(bulletsPerShot, "Bullets Mult. x" + bulletsPerShot_Amount.currentValue.ToString("F0"), 3);
+
+            bulletsPerShot_Amount.currentValue = m_GUI.makeSlider(bulletsPerShot_Amount.currentValue, 1, 5, 4, bulletsPerShot, true);
+
+            instantHit = m_GUI.makeCheckbox(instantHit, "Instant Hit", 5);
+
+            damageHack = m_GUI.makeCheckbox(damageHack, "Damage Mult. x" + damageHack_Amount_Multiplier.currentValue.ToString("F0"), 6);
+
+            damageHack_Amount_Multiplier.currentValue = m_GUI.makeSlider(damageHack_Amount_Multiplier.currentValue, 1, 10, 7, damageHack, true);
+
+            unlimited_Traps = m_GUI.makeCheckbox(unlimited_Traps, "Unlimited Traps", 8);
+            unlimited_Nades = m_GUI.makeCheckbox(unlimited_Nades, "Unlimited Nades", 9);
+
+            GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
+        }
+
+        private void Win_UtilityFunc(int id)
+        {
+            antiSoftBan = m_GUI.makeCheckbox(antiSoftBan, "Anti-Ban (BETA)", 1);
+
+            m_GUI.makeLabel("Custom FOV", 2);
+            customFOV = m_GUI.makeSlider(customFOV, 60, 160, 3);
+            m_GUI.makeButton(ForceSetFOV, $"Set FOV to: {customFOV.ToString("F0")}", 4);
+
+            GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
+        }
+
+        private void MenuHotkeyManager()
         {
             menutimer -= Time.deltaTime;
 
@@ -240,41 +238,15 @@ namespace ZeroHour_Hacks
                 if (Input.GetKey(KeyCode.Insert))
                 {
                     showMenu = !showMenu;
-                    menutimer = 0.15f;
-#if TESTING
-                    //con.WriteLine("MenuFlip");
-#endif
+                    menutimer = 0.25f;
+                }
+                if (Input.GetKey(KeyCode.Home))
+                {
+                    temporaryHideAll = !temporaryHideAll;
+                    menutimer = 0.25f;
                 }
             }
         }
-
-
-#if TESTING
-        Rect window_test = new Rect(200, 130, (m_GUI.buttonWidth + (m_GUI.windowHorizontalBuffer * 2)) + 500, m_GUI.buttonHeight * 10 + m_GUI.windowHorizontalBuffer + 200f);
-        private void window_TestFunct(int id)
-        {
-
-            test_item_1 = m_GUI.makeCheckbox(test_item_1, "test_item_", 1);
-            test_item_2 = m_GUI.makeCheckbox(test_item_2, "test_item_2", 2);
-            test_item_3 = m_GUI.makeCheckbox(test_item_3, "test_item_3", 3);
-            test_item_4 = m_GUI.makeCheckbox(test_item_4, "test_item_4", 4);
-            test_item_5 = m_GUI.makeCheckbox(test_item_5, "test_item_5", 5);
-
-            GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
-        }
-         bool test_item_1 = false;
-         bool test_item_2 = false;
-         bool test_item_3 = false;
-         bool test_item_4 = false;
-         bool test_item_5 = false;
-         void testStuff()
-        {
-
-            if(test_item_1)
-            {
-            }
-        }
-#endif
 
     }
 }

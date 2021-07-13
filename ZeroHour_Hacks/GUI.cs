@@ -1,8 +1,6 @@
-﻿using RootMotion.FinalIK;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using CustomTypes;
 
 namespace _GUI
 {
@@ -16,7 +14,8 @@ namespace _GUI
         public static int windowStackBuffer = 20;
         public static int buttonWidth = 150;
         public static int buttonHeight = 20;
-        public static void makeButton(Action operation, String text, int stackNo)
+
+        public static void makeButton(Action operation, string text, int stackNo)
         {
             GUI.color = buttonColor;
             Vector2 pos = new Vector2(windowHorizontalBuffer, windowStackBuffer * stackNo);
@@ -33,7 +32,9 @@ namespace _GUI
             Vector2 d = end - start;
             float a = Mathf.Rad2Deg * Mathf.Atan(d.y / d.x);
             if (d.x < 0)
+            {
                 a += 180;
+            }
 
             int width2 = (int)Mathf.Ceil(width / 2);
 
@@ -41,8 +42,16 @@ namespace _GUI
             GUI.DrawTexture(new Rect(start.x, start.y - width2, d.magnitude, width), Texture2D.whiteTexture);
             GUIUtility.RotateAroundPivot(-a, start);
         }
+        public static bool MenuWindowSwitch(bool item, string text, Vector2 Position)
+        {
+            if (GUI.Button(new Rect(Position.x, Position.y, m_GUI.buttonWidth + (windowHorizontalBuffer * 2), m_GUI.buttonHeight * 1.3f), text))
+            {
+                return !item;
+            }
+            return item;
+        }
 
-        public static void makeLabel(String text, int stackNo)
+        public static void makeLabel(string text, int stackNo)
         {
             GUI.color = buttonColor;
             Vector2 pos = new Vector2(windowHorizontalBuffer, windowStackBuffer * stackNo);
@@ -51,14 +60,10 @@ namespace _GUI
         }
         public static float makeSlider(float item, float left, float right, int stackNo, bool controller, bool roundValue = false)
         {
-
             GUI.color = buttonColor;
             Vector2 pos = new Vector2(windowHorizontalBuffer, windowStackBuffer * stackNo);
             Vector2 size = new Vector2(buttonWidth, buttonHeight);
-
-            float result = item;
             return GUI.HorizontalSlider(new Rect(pos, size), item, left, right);
-
         }
 
         public static float makeSlider(float item, float left, float right, int stackNo)
@@ -73,7 +78,7 @@ namespace _GUI
 
         }
 
-        public static bool makeCheckbox(bool item, String text, int stackNo, bool dependent = false, bool dependancy = true)
+        public static bool makeCheckbox(bool item, string text, int stackNo, bool dependent = false, bool dependancy = true)
         {
             if (item == true)
             {
@@ -99,13 +104,12 @@ namespace _GUI
                 return item;
             }
             return false;
-
         }
 
 
         public static void DrawBox(Vector2 position, Vector2 size, float thickness, bool centered = true)
         {
-            var upperLeft = centered ? position - size / 2f : position;
+            Vector2 upperLeft = centered ? position - size / 2f : position;
             GUI.DrawTexture(new Rect(position.x, position.y, size.x, thickness), Texture2D.whiteTexture);
             GUI.DrawTexture(new Rect(position.x, position.y, thickness, size.y), Texture2D.whiteTexture);
             GUI.DrawTexture(new Rect(position.x + size.x, position.y, thickness, size.y), Texture2D.whiteTexture);
@@ -124,15 +128,20 @@ namespace _GUI
         {
             RingArray arr;
             if (ringDict.ContainsKey(numSides))
+            {
                 arr = ringDict[numSides];
+            }
             else
+            {
                 arr = ringDict[numSides] = new RingArray(numSides);
+            }
 
-
-            var center = centered ? position : position + Vector2.one * radius;
+            Vector2 center = centered ? position : position + Vector2.one * radius;
 
             for (int i = 0; i < numSides - 1; i++)
+            {
                 DrawLine(center + arr.Positions[i] * radius, center + arr.Positions[i + 1] * radius, thickness, color);
+            }
 
             DrawLine(center + arr.Positions[0] * radius, center + arr.Positions[arr.Positions.Length - 1] * radius, thickness, color);
         }
@@ -143,8 +152,8 @@ namespace _GUI
         }
         public static void DrawLine(Vector2 from, Vector2 to, float thickness)
         {
-            var delta = (to - from).normalized;
-            var angle = Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg;
+            Vector2 delta = (to - from).normalized;
+            float angle = Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg;
             GUIUtility.RotateAroundPivot(angle, from);
             DrawBox(from, Vector2.right * (from - to).magnitude, thickness, false);
             GUIUtility.RotateAroundPivot(-angle, from);
@@ -156,16 +165,16 @@ namespace _GUI
             public RingArray(int numSegments)
             {
                 Positions = new Vector2[numSegments];
-                var stepSize = 360f / numSegments;
+                float stepSize = 360f / numSegments;
                 for (int i = 0; i < numSegments; i++)
                 {
-                    var rad = Mathf.Deg2Rad * stepSize * i;
+                    float rad = Mathf.Deg2Rad * stepSize * i;
                     Positions[i] = new Vector2(Mathf.Sin(rad), Mathf.Cos(rad));
                 }
             }
         }
 
-        private static Dictionary<int, RingArray> ringDict = new Dictionary<int, RingArray>();
+        private static readonly Dictionary<int, RingArray> ringDict = new Dictionary<int, RingArray>();
 
 
         public static void setDefaultskin()
@@ -223,7 +232,10 @@ namespace _GUI
 
                 if (show)
                 {
-                    scrollViewVector = GUI.BeginScrollView(new Rect((dropDownRect.x - buttonWidth), (dropDownRect.y + buttonHeight), dropDownRect.width, dropDownRect.height), scrollViewVector, new Rect(0, 0, buttonWidth, Mathf.Max(dropDownRect.height, (list.Length * buttonHeight))));
+                    scrollViewVector = GUI.BeginScrollView(new Rect((dropDownRect.x - buttonWidth),
+                        (dropDownRect.y + buttonHeight), dropDownRect.width, dropDownRect.height),
+                        scrollViewVector, new Rect(0, 0, buttonWidth, Mathf.Max(dropDownRect.height,
+                        (list.Length * buttonHeight))));
 
                     GUI.Box(new Rect(0, 0, buttonWidth, (list.Length * buttonHeight)), "");
 
@@ -257,5 +269,5 @@ namespace _GUI
 
 
     }
-    
+
 }

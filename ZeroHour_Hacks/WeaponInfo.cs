@@ -1,18 +1,12 @@
-﻿using RootMotion.FinalIK;
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using _GUI;
-using CustomTypes;
+﻿using System.Collections.Generic;
 
 namespace ZeroHour_Hacks
 {
-     class WeaponInfo
+    internal class WeaponInfo
     {
         public class wep
         {
-            public String name;
+            public string name;
             public int BulletsPerShot;
             public bool Automatic;
             public float ex_Recoil;
@@ -26,10 +20,10 @@ namespace ZeroHour_Hacks
             public float ex_Dmg;
             public float speed;
             public float ex_weight;
-            public wep(String _name, int _BulletsPerShot, bool _Automatic,
+            public wep(string _name, int _BulletsPerShot, bool _Automatic,
                         float _ex_Recoil, float _HeatRate, float _recoilAmount,
                         float _recoilRecoverTime, float _MaxSpray, float _MinSpray,
-                        float _fireRate, float _Damage, float _ex_Dmg,float _speed,float _ex_weight)
+                        float ApplyFireRate, float _Damage, float _ex_Dmg, float _speed, float _ex_weight)
             {
                 BulletsPerShot = _BulletsPerShot;
                 Automatic = _Automatic;
@@ -39,7 +33,7 @@ namespace ZeroHour_Hacks
                 recoilRecoverTime = _recoilRecoverTime;
                 MaxSpray = _MaxSpray;
                 MinSpray = _MinSpray;
-                fireRate = _fireRate;
+                fireRate = ApplyFireRate;
                 Damage = _Damage;
                 ex_Dmg = _ex_Dmg;
                 name = _name;
@@ -48,17 +42,17 @@ namespace ZeroHour_Hacks
             }
         }
 
-            wep m17     = new wep("MOCK 17", 1, false, -1.6f, 1, 5, 0.25f, 0, 0,                     0.16f, 25, -2, 37,0.1405f);
-            wep falcon  = new wep(".50 FALCON", 1, false, -2, 3, 7, 0.25f, 0, 0,                  0.3f, 50, -10 , 37,0.153f);
-            wep sr762   = new wep("SR 7.62", 1, true, -0.1f, 1, 1.25f, 0.25f, 0.15f, -0.15f,       0.12f, 35, -2, 37,0.195f);
-            wep m4      = new wep("M4", 1, true, -0.1f, 0.75f, 1.23f, 0.25f, 0.1f, -0.1f,             0.1f, 30, -3, 37,0.1705f);
-            wep kyanite = new wep("Kyanite", 1, true, -0.1f, 1, 1.2f, 0.25f, 0.12f, -0.12f,      0.1f, 30, -6, 37,0.183f);
-            wep es36    = new wep("ES36", 1, true, 0, 0.6f, 1.26f, 0.22f, 0.25f, -0.25f,            0.1f, 26, 0, 37,0.171f);
-            wep rattler = new wep("RATTLER", 1, true, -0.15f, -.3f, 1.15f, 0.23f, 0.9f,  -0.9f,  0.088f, 20, -3, 37,0.1585f);
-            wep oppressor = new wep("OPPRESSOR", 1, true, 0, 0.5f, 1f, 0.27f, 0.2f, -0.2f,       0.09f, 25, 0, 37,0.161f);
-            wep shotgun = new wep("TACTICAL SHOTGUN", 8, false, -0.25f, 5, 2, 0.25f, 3, -3,      1, 30, -5, 37,0.2045f);
-            wep mac10   = new wep("MAC-10", 1, true, -0.15f, 0.35f, 2, 0.25f, 0.8f, -0.8f,         0.072f, 20, -3, 37,0.137f);
-            wep shield  = new wep("BALLISTIC SHIELD", 0, true, 0, 1, 1.2f, 0.25f, 0, 0,           0, 0, 0, 37,0.21f);
+        private readonly wep m17 = new wep("MOCK 17", 1, false, -1.6f, 1, 5, 0.25f, 0, 0, 0.16f, 25, -2, 37, 0.1405f);
+        private readonly wep falcon = new wep(".50 FALCON", 1, false, -2, 3, 7, 0.25f, 0, 0, 0.3f, 50, -10, 37, 0.153f);
+        private readonly wep sr762 = new wep("SR 7.62", 1, true, -0.1f, 1, 1.25f, 0.25f, 0.15f, -0.15f, 0.12f, 35, -2, 37, 0.195f);
+        private readonly wep m4 = new wep("M4", 1, true, -0.1f, 0.75f, 1.23f, 0.25f, 0.1f, -0.1f, 0.1f, 30, -3, 37, 0.1705f);
+        private readonly wep kyanite = new wep("Kyanite", 1, true, -0.1f, 1, 1.2f, 0.25f, 0.12f, -0.12f, 0.1f, 30, -6, 37, 0.183f);
+        private readonly wep es36 = new wep("ES36", 1, true, 0, 0.6f, 1.26f, 0.22f, 0.25f, -0.25f, 0.1f, 26, 0, 37, 0.171f);
+        private readonly wep rattler = new wep("RATTLER", 1, true, -0.15f, -.3f, 1.15f, 0.23f, 0.9f, -0.9f, 0.088f, 20, -3, 37, 0.1585f);
+        private readonly wep oppressor = new wep("OPPRESSOR", 1, true, 0, 0.5f, 1f, 0.27f, 0.2f, -0.2f, 0.09f, 25, 0, 37, 0.161f);
+        private readonly wep shotgun = new wep("TACTICAL SHOTGUN", 8, false, -0.25f, 5, 2, 0.25f, 3, -3, 1, 30, -5, 37, 0.2045f);
+        private readonly wep mac10 = new wep("MAC-10", 1, true, -0.15f, 0.35f, 2, 0.25f, 0.8f, -0.8f, 0.072f, 20, -3, 37, 0.137f);
+        private readonly wep shield = new wep("BALLISTIC SHIELD", 0, true, 0, 1, 1.2f, 0.25f, 0, 0, 0, 0, 0, 37, 0.21f);
 
         public List<wep> weaponDatas = new List<wep>();
 

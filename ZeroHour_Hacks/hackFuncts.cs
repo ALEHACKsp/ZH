@@ -1,36 +1,85 @@
-﻿using RootMotion.FinalIK;
+﻿using Photon.Pun;
+using Steamworks;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-using _GUI;
-using CustomTypes;
 
 namespace ZeroHour_Hacks
 {
     public partial class gameObj : MonoBehaviour
     {
-        void killAi()
+        private void ExecuteSwitchedHack(bool item, Action enabled, Action disabled)
+        {
+            if (item)
+            {
+                enabled();
+            }
+            else
+            {
+                disabled();
+            }
+        }
+
+        private void UnlimitedGrenades()
+        {
+            if (local_User.myWeaponManager.UsedGadget1 || local_User.myWeaponManager.UsedGadget2)
+            {
+
+                local_User.myWeaponManager.UsedGadget1 = false;
+                local_User.myWeaponManager.UsedGadget2 = false;
+
+                local_User.myWeaponManager.US_Script.MyPhoton.RPC("SetGadgetSlot", RpcTarget.All, new object[]
+                {
+                    local_User.myWeaponManager.gadgetSlotselected
+                });
+            }
+        }
+
+        private void UnlimitedTraps()
+        {
+            local_User.myWeaponManager.PlacedTrap = false;
+        }
+
+        private void ForceSetFOV()
+        {
+            m_GameSettings.GameplayFOV = customFOV;
+            PlayerPrefs.SetFloat("GameplayFOV", customFOV);
+
+        }
+
+        private void AntiSoftBan_Funct()
+        {
+            if (antiSoftBan)
+            {
+                m_GameNetwork.SavedDatas.Thok = 0;
+                SteamUserStats.SetStat(m_GameNetwork.ThokStat.name, 0);
+            }
+        }
+
+        private void KillAIDefender()
         {
             killAll = true;
             return;
         }
-        void unlockDoors()
+
+        private void UnlockAllDoors_SP()
         {
             foreach (InteractiveDoorSystem door in m_DoorManager.Doors)
             {
                 door.Locked = false;
             }
         }
-        void killEnemy(ZH_AINav enemy)
+
+        private void KillAIEntity(ZH_AINav entity)
         {
-            enemy.Surrendering = false;
-            enemy.ActiveShooter = true;
-            enemy.OnDeath();
-            enemy.enabled = false;
+            entity.Surrendering = false;
+            entity.ActiveShooter = true;
+            entity.OnDeath();
+            entity.enabled = false;
         }
-        void arrestEnemies()
+
+        private void ArrestAIDefenders()
         {
-            foreach (ZH_AINav enemy in aiMan.AliveEnemies)
+            foreach (ZH_AINav enemy in m_ZH_AIManager.AliveEnemies)
             {
                 if (enemy.takenHostage) // release Hostage
                 {
@@ -45,31 +94,35 @@ namespace ZeroHour_Hacks
                     enemy.OnArrested();
                     enemy.GotArrested = true; //makes no difference?
                     enemy.TriggerArrestAnim();
-                    aiMan.ArrestedEnemies.Add(enemy);
+                    m_ZH_AIManager.ArrestedEnemies.Add(enemy);
                 }
             }
         }
-        void completeObjs()
+
+        private void ForceCompleteObjectives_SP()
         {
-            foreach (ZH_AIManager.CoopObjectiveVariables Obj in aiMan.Objectives)
+            foreach (ZH_AIManager.CoopObjectiveVariables Obj in m_ZH_AIManager.Objectives)
             {
                 Obj.Completed = true;
             }
         }
-        void disarmTraps()
+
+        private void DisarmAllDoorTraps_SP()
         {
-            foreach (DoorTrapSystem trap in trapMan.Traps)
+            foreach (DoorTrapSystem trap in m_DoorTrapManager.Traps)
             {
                 trap.ACTIVE = false;
             }
         }
-        void collectWeapons()
+
+        private void CollectDroppedAIWeapons()
         {
-            aiMan.SecuredWeapons = aiMan.SpawnedEnemies.Count;
+            m_ZH_AIManager.SecuredWeapons = m_ZH_AIManager.SpawnedEnemies.Count;
         }
-        void extraPoints()
+
+        private void ExtraSPPoints()
         {
-            foreach (ZH_AIManager.CoopObjectiveVariables Obj in aiMan.Objectives)
+            foreach (ZH_AIManager.CoopObjectiveVariables Obj in m_ZH_AIManager.Objectives)
             {
                 if (Obj.ExtraPoints > 0)
                 {
@@ -81,17 +134,15 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        void doNVG()
+
+        private void ForceToggleNVG()
         {
-            GameSettings[] settings = FindObjectsOfType<GameSettings>();
-            foreach (GameSettings set in settings)
-            {
-                set.ANVGScript.On = !set.ANVGScript.On;
-            }
+             m_GameSettings.ANVGScript.On = !m_GameSettings.ANVGScript.On;
         }
-         bool playerWeaponChanged()
+
+        private bool HasPlayerWeaponChanged()
         {
-            String currentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
+            string currentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
             if (lastWeapon == currentWeapon)
             {
                 return false;
@@ -99,13 +150,15 @@ namespace ZeroHour_Hacks
             lastWeapon = currentWeapon;
             return true;
         }
-         void _infStam()
+
+        private void ApplyInfiniteStamina()
         {
             local_User.myWeaponManager.CurrentWeapon.ex_Weight = 0;
         }
-         void _infStamDisable()
+
+        private void RemoveInfiniteStamina()
         {
-            String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
+            string curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
             foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
@@ -115,8 +168,10 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-         void _noRecoil()
+
+        private void ApplyNoRecoil()
         {
+            m_cameraRig = local_User.myWeaponManager.CamScript;
             m_cameraRig.RecoilX = 0f;
             m_cameraRig.RecoilY = 0f;
             local_User.myWeaponManager.CurrentWeapon.ex_Recoil = 0f;
@@ -126,9 +181,10 @@ namespace ZeroHour_Hacks
             local_User.myWeaponManager.CurrentWeapon.Properties.MaxSpray = 0f;
             local_User.myWeaponManager.CurrentWeapon.Properties.MinSpray = 0f;
         }
-         void _noRecoilDisable()
+
+        private void RemoveNoRecoil()
         {
-            String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
+            string curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
             foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
@@ -143,13 +199,15 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-         void _automaticWeapons()
+
+        private void ApplyFullAutoWeapons()
         {
             local_User.myWeaponManager.CurrentWeapon.Properties.Automatic = true;
         }
-         void _automaticWeaponsDisable()
+
+        private void RemoveFullAutoWeapons()
         {
-            String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
+            string curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
             foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
 
@@ -160,39 +218,15 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-         void doSwitchedHack(bool item, Action enabled, Action disabled)
-        {
-            if (item)
-            {
-                enabled();
-            }
-            else
-            {
-                disabled();
-            }
 
-        }
-
-         void doSwitchedHackFloat(bool item, Action enabled, Action disabled)
-        {
-            if (item )
-            {
-                enabled();
-            }
-            else
-            {
-                disabled();
-            }
-
-        }
-#if PVT
-         void _instantHit()
+        private void ApplyInstantHit()
         {
             local_User.myWeaponManager.CurrentWeapon.Properties.Speed = 10000f;
         }
-         void _instantHitDisable()
+
+        private void RemoveInstantHit()
         {
-            String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
+            string curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
             foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
@@ -202,9 +236,10 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-         void _damageHack()
+
+        private void ApplyDamageHack()
         {
-            String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
+            string curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
             foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
@@ -215,9 +250,10 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-         void _damageHackDisable()
+
+        private void RemoveDamageHack()
         {
-            String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
+            string curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
             foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
@@ -228,9 +264,10 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-         void _bulletsPerShot()
+
+        private void ApplyBulletsPerShot()
         {
-            String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
+            string curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
             foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
@@ -240,9 +277,10 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-         void _bulletsPerShotDisable()
+
+        private void RemoveBulletsPerShot()
         {
-            String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
+            string curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
             foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
@@ -252,9 +290,10 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-         void _fireRate()
+
+        private void ApplyFireRate()
         {
-            String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
+            string curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
             foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
@@ -264,9 +303,10 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-         void _fireRateDisable()
+
+        private void RemoveFireRate()
         {
-            String curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
+            string curentWeapon = local_User.myWeaponManager.CurrentWeapon.Properties.GunName;
             foreach (WeaponInfo.wep weapon in weps.weaponDatas)
             {
                 if (curentWeapon == weapon.name)
@@ -276,6 +316,6 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-#endif
+
     }
 }

@@ -1,10 +1,4 @@
-﻿using RootMotion.FinalIK;
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using _GUI;
-using CustomTypes;
+﻿using UnityEngine;
 
 
 namespace ZeroHour_Hacks
@@ -12,33 +6,22 @@ namespace ZeroHour_Hacks
 
     public partial class gameObj : MonoBehaviour
     {
-        ZH_AIManager aiMan;
-        DoorTrapManager trapMan;
-        CameraRig m_cameraRig;
-        Camera m_Camera;
-        UserInput[] m_Users;
-        UserInput local_User;
-        ZH_Civillian[] m_Civs;
-        DoorManager m_DoorManager;
-        float updateTimer = 1f; //entity lists update
-        float updateTimer_ = 10f; //entity lists update
-        void playerLoop()
+        private void HumanPlayersLoop()
         {
             if (m_Users.Length > 0)
             {
 
                 foreach (UserInput a_player in m_Users)
                 {
-                    //con.WriteLine("in a_Player loop");
                     if (a_player.MyPhoton.IsMine)
                     {
                         local_User = a_player;
-                        m_cameraRig = local_User.myWeaponManager.CamScript;
+
                         if (general_Ammo)
                         {
                             try
                             {
-                                playerHud();
+                                RenderPlayerHUD();
                             }
                             catch { }
                         }
@@ -46,7 +29,7 @@ namespace ZeroHour_Hacks
                         {
                             try
                             {
-                                crosshairDynamic();
+                                RenderDynamicCrosshair();
                             }
                             catch { }
                         }
@@ -57,45 +40,56 @@ namespace ZeroHour_Hacks
                         {
                             try
                             {
-                                drawPlayerEsp(a_player);
+                                RenderPlayerESP(a_player);
                             }
                             catch { }
                         }
                     }
 
-                    /* grenades */
-                    if (esp_Throwables)
+
+                    foreach (ThrowableSystem throwable in a_player.myWeaponManager.ThrowableWeapon)
                     {
-                        foreach (ThrowableSystem throwable in a_player.myWeaponManager.ThrowableWeapon)
+                        if (esp_Throwables)
                         {
                             try
                             {
-                                throwableESP(throwable);
+                                RenderThrowableESP(throwable);
                             }
                             catch { }
                         }
+
+                        try
+                        {
+                            if (noFlash)
+                            {
+                                throwable.BlowSettings.DoFlash = false;
+                                throwable.BlowSettings.DoStun = false;
+                            }
+                        }
+                        catch { }
                     }
 
                 }//end player loop
 
             }//end players
         }
-        void aiLoop()
+
+        private void AIDefendersLoop()
         {
             if (esp_AI_Master)
             {
-                if (aiMan != null)
+                if (m_ZH_AIManager != null)
                 {
-                    if (aiMan.AliveEnemies.Count > 0)
+                    if (m_ZH_AIManager.AliveEnemies.Count > 0)
                     {
                         try
                         {
-                            foreach (ZH_AINav enemy in aiMan.AliveEnemies)
+                            foreach (ZH_AINav enemy in m_ZH_AIManager.AliveEnemies)
                             {
-                                drawEnemyEsp(enemy);
+                                RenderAIDefenderESP(enemy);
                                 if (killAll)
                                 {
-                                    killEnemy(enemy);
+                                    KillAIEntity(enemy);
                                 }
                             }
                         }
@@ -106,18 +100,19 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        void objLoop()
+
+        private void ObjectivesLoop()
         {
             if (esp_Objective)
             {
                 //Objectives
-                if (aiMan.Objectives.Length > 0)
+                if (m_ZH_AIManager.Objectives.Length > 0)
                 {
                     try
                     {
-                        foreach (ZH_AIManager.CoopObjectiveVariables Obj in aiMan.Objectives)
+                        foreach (ZH_AIManager.CoopObjectiveVariables Obj in m_ZH_AIManager.Objectives)
                         {
-                            objectiveEsp(Obj);
+                            RenderObjectiveESP_SP(Obj);
 
                         }
                     }
@@ -126,7 +121,8 @@ namespace ZeroHour_Hacks
             }
 
         }
-        void civLoop()
+
+        private void CivilliansLoop()
         {
             if (esp_Civs)
             {
@@ -136,36 +132,58 @@ namespace ZeroHour_Hacks
                     {
                         foreach (ZH_Civillian civ in m_Civs)
                         {
-                            drawCivEsp(civ);
+                            RenderCivillianESP(civ.transform);
                         }
                     }
                     catch { }
                 }
             }
         }
-        void trapLoop()
+
+        private void HostagesLoop()
+        {
+            if (esp_Hostages)
+            {
+                if (m_BombHostageTriggers.Length > 0)
+                {
+
+                    foreach (BombHostageTrigger hostage in m_BombHostageTriggers)
+                    {
+                        try
+                        {
+                            RenderCivillianESP(hostage.transform);
+                        }
+                        catch { }
+                    }
+
+                }
+            }
+        }
+
+        private void DoorTrapsLoop()
         {
             if (esp_Traps)
             {
                 //Door Traps
-                if (trapMan.Traps.Count > 0)
+                if (m_DoorTrapManager.Traps.Count > 0)
                 {
                     try
                     {
-                        foreach (DoorTrapSystem trap in trapMan.Traps)
+                        foreach (DoorTrapSystem trap in m_DoorTrapManager.Traps)
                         {
-                            drawTrapEsp(trap);
+                            RenderTrapESP(trap);
                         }
                     }
                     catch { }
                 }
             }
         }
-        void breakerBoxLoop()
+
+        private void BreakerBoxLoop()
         {
             if (esp_Breakers)
             {
-                foreach (BreakerBoxSystem box in breakers)
+                foreach (BreakerBoxSystem box in m_BreakerBoxSystem)
                 {
                     try
                     {
@@ -175,10 +193,11 @@ namespace ZeroHour_Hacks
                 }
             }
         }
-        void populateEntityLists_fast()
+
+        private void PopulateHumanPlayers()
         {
-            updateTimer -= Time.deltaTime;
-            if (updateTimer <= 0f)
+            populateHumanPlayers_Timer -= Time.deltaTime;
+            if (populateHumanPlayers_Timer <= 0f)
             {
                 try
                 {
@@ -186,70 +205,73 @@ namespace ZeroHour_Hacks
                 }
                 catch { }
 
-                try
-                {
-
-                    if (esp_Traps)
-                    {
-                        trapMan = FindObjectOfType<DoorTrapManager>();
-                    }
-                }
-                catch { }
-
-                try
-                {
-                    if (m_DoorManager == null)
-                    {
-                        m_DoorManager = FindObjectOfType<DoorManager>();
-                    }
-                }
-                catch { }
-
-                updateTimer = 1f;
+                populateHumanPlayers_Timer = 1f;
             }
         }
-        void populateEntityLists_late()
+
+        private void PopulateEntityLists()
         {
-            updateTimer_ -= Time.deltaTime;
-            if (updateTimer_ <= 0f)
+            populateEntityLists_Timer -= Time.deltaTime;
+            if (populateEntityLists_Timer <= 0f)
             {
                 try
                 {
-                    if (m_Camera == null)
-                    {
-                        m_Camera = Camera.main;
-                    }
+                    m_Camera = Camera.main;
                 }
                 catch { }
 
                 try
                 {
-                    if (esp_Civs)
-                    {
-                        m_Civs = FindObjectsOfType<ZH_Civillian>();
-                    }
+
+                    m_DoorTrapManager = FindObjectOfType<DoorTrapManager>();
                 }
                 catch { }
 
                 try
                 {
-                    if (esp_AI_Master)
-                    {
-                        aiMan = FindObjectOfType<ZH_AIManager>();
-                    }
+
+                    m_DoorManager = FindObjectOfType<DoorManager>();
                 }
                 catch { }
 
                 try
                 {
-                    if (esp_Breakers)
-                    {
-                        breakers = FindObjectsOfType<BreakerBoxSystem>();
-                    }
+                    m_Civs = FindObjectsOfType<ZH_Civillian>();
                 }
                 catch { }
 
-                updateTimer_ = 5f;
+                try
+                {
+                    m_ZH_AIManager = FindObjectOfType<ZH_AIManager>();
+                }
+                catch { }
+
+                try
+                {
+                    m_BreakerBoxSystem = FindObjectsOfType<BreakerBoxSystem>();
+                }
+                catch { }
+
+                try
+                {
+                    m_BombHostageTriggers = FindObjectsOfType<BombHostageTrigger>();
+                }
+                catch { }
+
+
+                try
+                {
+                    m_GameNetwork = FindObjectOfType<GameNetworks>();
+                }
+                catch { }
+
+                try
+                {
+                    m_GameSettings = FindObjectOfType<GameSettings>();
+                }
+                catch { }
+
+                populateEntityLists_Timer = 5f;
             }
         }
 
