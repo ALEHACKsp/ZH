@@ -150,7 +150,7 @@ namespace ZeroHour_Hacks
             esp_Throwables = m_GUI.makeCheckbox(esp_Throwables, "Throwables", 16);
             esp_Traps = m_GUI.makeCheckbox(esp_Traps, "Door Traps", 17, true);
             esp_Breakers = m_GUI.makeCheckbox(esp_Breakers, "Breaker Box", 18);
-            esp_Hostages = m_GUI.makeCheckbox(esp_Hostages, "m_BombHostageTriggers", 19);
+            esp_Hostages = m_GUI.makeCheckbox(esp_Hostages, "Hostages", 19);
 
             GUI.DragWindow(new Rect(0, 0, Screen.width, Screen.height));
 

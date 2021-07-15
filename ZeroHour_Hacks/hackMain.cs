@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using _GUI;
 
+
 namespace ZeroHour_Hacks
 {
     public partial class gameObj : MonoBehaviour
     {
-        private readonly string buildNo = "v1.327.0";
+        private readonly string buildNo = "v1.342.0";
 
 
 
@@ -17,6 +18,12 @@ namespace ZeroHour_Hacks
             baseInfo += buildNo;
             killAll = false;
             weps.populateWeps();
+
+            try
+            {
+                LoadSettings();
+            }
+            catch { }
         }
 
         public void Update()
@@ -69,6 +76,14 @@ namespace ZeroHour_Hacks
                     UnlimitedGrenades();
                 }
                 catch { }
+            }
+
+            settingsSaveTimer -= Time.deltaTime;
+            if (settingsSaveTimer <= 0f)
+            {
+               // con.WriteLine("saved");
+                SaveSettings();
+                settingsSaveTimer = 120f;
             }
 #if TESTING
             testStuff();
@@ -136,10 +151,14 @@ namespace ZeroHour_Hacks
             AIDefendersLoop();
             DoorTrapsLoop();
             CivilliansLoop();
-            ObjectivesLoop();
             BreakerBoxLoop();
             HostagesLoop();
             AimbotFOVHandler();
+            try
+            {
+                ObjectivesLoop();
+            }
+            catch { }
 
 #if TESTING
 
@@ -236,11 +255,14 @@ namespace ZeroHour_Hacks
             if(test_item_4)
             {
 
+                SaveSettings();
+                test_item_4 = false;
             }
 
             if (test_item_5)
             {
-
+                LoadSettings();
+                test_item_5 = false;
             }
 
         }

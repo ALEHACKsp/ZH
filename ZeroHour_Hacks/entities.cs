@@ -258,7 +258,6 @@ namespace ZeroHour_Hacks
                 }
                 catch { }
 
-
                 try
                 {
                     m_GameNetwork = FindObjectOfType<GameNetworks>();
